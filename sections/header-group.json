@@ -1,0 +1,119 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement_KmeLRe": {
+          "type": "announcement",
+          "settings": {
+            "text": "Free shipping On all orders over $100",
+            "link": ""
+          }
+        },
+        "announcement-bar-0": {
+          "type": "announcement",
+          "settings": {
+            "text": "Hassle-free returns  30-day postage paid returns",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement_KmeLRe",
+        "announcement-bar-0"
+      ],
+      "settings": {
+        "auto_rotate": true,
+        "change_slides_speed": 3,
+        "color_scheme": "scheme-561a87c9-600c-4243-8bc8-535743eafbe7",
+        "show_line_separator": true,
+        "show_social": false,
+        "enable_country_selector": false,
+        "enable_language_selector": false
+      }
+    },
+    "header_utility_bar_UpbJgD": {
+      "type": "header-utility-bar",
+      "name": "Header utility bar",
+      "settings": {
+        "menu": "",
+        "show_social": true,
+        "facebook_link": "https://www.facebook.com/",
+        "instagram_link": "#",
+        "pinterest_link": "#",
+        "show_country": true,
+        "default_country": "Pakistan (USD $)"
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_width": 200,
+        "logo_position": "center",
+        "shop_menu_text": "SHOP",
+        "season_menu_text": "SEASON",
+        "menu_text_color": "#000000",
+        "menu_text_hover_color": "#666666",
+        "menu_font_size": 14,
+        "menu_spacing": 30,
+        "enable_shop_dropdown": true,
+        "enable_season_dropdown": true,
+        "dropdown_background": "#ffffff",
+        "dropdown_width": 1200,
+        "shop_menu_1": "customer-account-main-menu",
+        "shop_column_1_title": "Categories",
+        "shop_menu_2": "customer-account-main-menu",
+        "shop_column_2_title": "Collections",
+        "shop_menu_3": "customer-account-main-menu",
+        "shop_column_3_title": "Featured",
+        "shop_image_1": "shopify://shop_images/man-adjusts-his-shirt-cuffs-below-watch.jpg",
+        "shop_image_1_title": "New Collection",
+        "shop_image_2": "shopify://shop_images/tie-clip.jpg",
+        "shop_image_2_title": "Best Sellers",
+        "season_menu_1": "customer-account-main-menu",
+        "season_column_1_title": "SPRING 2022",
+        "season_menu_2": "customer-account-main-menu",
+        "season_column_2_title": "SUMMER 2022",
+        "season_menu_3": "customer-account-main-menu",
+        "season_column_3_title": "FALL 2022",
+        "season_menu_4": "customer-account-main-menu",
+        "season_column_4_title": "WINTER 2022",
+        "journal_link_text": "JOURNAL",
+        "journal_link": "/pages/journal",
+        "theme_feature_link_text": "THEME FEATURE",
+        "theme_feature_link": "/pages/theme-features",
+        "right_links_spacing": 30,
+        "header_padding_top": 5,
+        "header_padding_bottom": 5,
+        "header_padding_sides": 40,
+        "logo_section_gap": 100,
+        "header_background": "#ffffff",
+        "link_color": "#000000",
+        "link_hover_color": "#666666",
+        "icon_color": "#000000",
+        "color_scheme": "scheme-1",
+        "show_search_mobile": true,
+        "show_account_mobile": false,
+        "mobile_logo_width": 150,
+        "mobile_padding": 20,
+        "enable_sticky_header": true
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "header_utility_bar_UpbJgD",
+    "header"
+  ]
+}

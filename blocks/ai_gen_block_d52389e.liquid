@@ -1,0 +1,178 @@
+{% doc %}
+  @prompt
+    Create a custom header block (not a section) that adds two clickable links. This block should be insertable into the existing header section and positioned after the logo. The links should be customizable with settings to control link text and URL for both links. The styling should match the header design and links should display inline horizontally.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-header-links-{{ ai_gen_id }} {
+    display: block;
+  }
+
+  .ai-header-links__container-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.link_spacing }}px;
+  }
+
+  .ai-header-links__link-{{ ai_gen_id }} {
+    color: {{ block.settings.link_color }};
+    text-decoration: none;
+    font-size: {{ block.settings.font_size }}px;
+    font-weight: {{ block.settings.font_weight }};
+    transition: color 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .ai-header-links__link-{{ ai_gen_id }}:hover {
+    color: {{ block.settings.link_hover_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-header-links__container-{{ ai_gen_id }} {
+      gap: {{ block.settings.link_spacing | times: 0.75 }}px;
+    }
+
+    .ai-header-links__link-{{ ai_gen_id }} {
+      font-size: {{ block.settings.font_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<header-links-{{ ai_gen_id }} class="ai-header-links-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <nav class="ai-header-links__container-{{ ai_gen_id }}" role="navigation" aria-label="Custom header links">
+    {% if block.settings.link_1_text != blank %}
+      <a 
+        href="{{ block.settings.link_1_url }}" 
+        class="ai-header-links__link-{{ ai_gen_id }}"
+      >
+        {{ block.settings.link_1_text }}
+      </a>
+    {% endif %}
+
+    {% if block.settings.link_2_text != blank %}
+      <a 
+        href="{{ block.settings.link_2_url }}" 
+        class="ai-header-links__link-{{ ai_gen_id }}"
+      >
+        {{ block.settings.link_2_text }}
+      </a>
+    {% endif %}
+  </nav>
+</header-links-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class HeaderLinks{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+    }
+
+    customElements.define('header-links-{{ ai_gen_id }}', HeaderLinks{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Header links",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Link 1"
+    },
+    {
+      "type": "text",
+      "id": "link_1_text",
+      "label": "Link text",
+      "default": "Shop"
+    },
+    {
+      "type": "url",
+      "id": "link_1_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Link 2"
+    },
+    {
+      "type": "text",
+      "id": "link_2_text",
+      "label": "Link text",
+      "default": "About"
+    },
+    {
+      "type": "url",
+      "id": "link_2_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "link_spacing",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Space between links",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "link_hover_color",
+      "label": "Link hover color",
+      "default": "#334fb4"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header links"
+    }
+  ]
+}
+{% endschema %}

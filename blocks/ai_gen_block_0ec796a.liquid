@@ -1,0 +1,208 @@
+{% doc %}
+  @prompt
+    Create a custom header block that adds two clickable links positioned immediately after the logo in the header. The links should be customizable (allowing the merchant to set the link text and URL for each link). The styling should match the header's design and the links should appear inline with the logo. Include settings to control the link text and URLs for both links.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-header-links-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+  }
+
+  .ai-header-links-container-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.link_spacing }}px;
+    margin-left: {{ block.settings.margin_left }}px;
+  }
+
+  .ai-header-link-{{ ai_gen_id }} {
+    font-family: {{ block.settings.link_font.family }}, {{ block.settings.link_font.fallback_families }};
+    font-weight: {{ block.settings.link_font.weight }};
+    font-size: {{ block.settings.font_size }}px;
+    color: {{ block.settings.link_color }};
+    text-decoration: none;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .ai-header-link-{{ ai_gen_id }}:hover {
+    color: {{ block.settings.link_hover_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-header-links-container-{{ ai_gen_id }} {
+      gap: {{ block.settings.link_spacing_mobile }}px;
+      margin-left: {{ block.settings.margin_left_mobile }}px;
+    }
+
+    .ai-header-link-{{ ai_gen_id }} {
+      font-size: {{ block.settings.font_size_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<header-links-{{ ai_gen_id }} class="ai-header-links-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-header-links-container-{{ ai_gen_id }}">
+    {% if block.settings.link_1_text != blank %}
+      <a 
+        href="{{ block.settings.link_1_url }}" 
+        class="ai-header-link-{{ ai_gen_id }}"
+      >
+        {{ block.settings.link_1_text }}
+      </a>
+    {% endif %}
+
+    {% if block.settings.link_2_text != blank %}
+      <a 
+        href="{{ block.settings.link_2_url }}" 
+        class="ai-header-link-{{ ai_gen_id }}"
+      >
+        {{ block.settings.link_2_text }}
+      </a>
+    {% endif %}
+  </div>
+</header-links-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class HeaderLinks{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+    }
+
+    customElements.define('header-links-{{ ai_gen_id }}', HeaderLinks{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Header links",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Link 1"
+    },
+    {
+      "type": "text",
+      "id": "link_1_text",
+      "label": "Link text",
+      "default": "Shop"
+    },
+    {
+      "type": "url",
+      "id": "link_1_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Link 2"
+    },
+    {
+      "type": "text",
+      "id": "link_2_text",
+      "label": "Link text",
+      "default": "About"
+    },
+    {
+      "type": "url",
+      "id": "link_2_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "font_picker",
+      "id": "link_font",
+      "label": "Font",
+      "default": "assistant_n4"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size on mobile",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "link_hover_color",
+      "label": "Link hover color",
+      "default": "#334fb4"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "link_spacing",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Space between links",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "link_spacing_mobile",
+      "min": 8,
+      "max": 32,
+      "step": 4,
+      "unit": "px",
+      "label": "Space between links on mobile",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "margin_left",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Left margin",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "margin_left_mobile",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Left margin on mobile",
+      "default": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header links"
+    }
+  ]
+}
+{% endschema %}

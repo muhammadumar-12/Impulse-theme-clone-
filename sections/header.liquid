@@ -1,0 +1,1623 @@
+<link rel="stylesheet" href="{{ 'component-list-menu.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-search.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-menu-drawer.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-mega-menu.css' | asset_url }}" media="print" onload="this.media='all'">
+
+<style>
+  /* Dynamic styles from settings */
+  .header-wrapper {
+    background-color: {{ section.settings.header_background }};
+    {% if section.settings.enable_sticky_header %}
+    /* Initial position */
+    position: relative;
+    {% endif %}
+  }
+  
+  /* Header wrapper with proper positioning */
+  .custom-header-wrapper {
+    position: relative;
+    z-index: 999;
+  }
+  
+  .header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: {{ section.settings.header_padding_top }}px {{ section.settings.header_padding_sides }}px {{ section.settings.header_padding_bottom }}px {{ section.settings.header_padding_sides }}px;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Left Column - Search Icon */
+  .header__left {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  .header__search-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .header__search-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Center Column - Three Sections */
+  .header__center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: {{ section.settings.logo_section_gap }}px;
+    position: relative;
+  }
+  
+  /* Center Left - Shop & Season Menu */
+  .header__center-left {
+    display: flex;
+    align-items: center;
+    gap: {{ section.settings.menu_spacing }}px;
+    position: relative;
+  }
+  
+  .header__nav-item {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: {{ section.settings.menu_font_size }}px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: {{ section.settings.menu_text_color }};
+    text-decoration: none;
+    font-weight: 400;
+    position: relative;
+    padding: 10px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .header__nav-item:hover {
+    color: {{ section.settings.menu_text_hover_color }};
+  }
+  
+  /* Dropdown arrow */
+  .header__nav-arrow {
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid {{ section.settings.menu_text_color }};
+    margin-top: 2px;
+  }
+  
+  /* Mega Dropdown Menu */
+  .header__mega-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: {{ section.settings.dropdown_background }};
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-top: 1px solid #eee;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    padding: 30px 40px;
+    width: 100vw;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    max-width: {{ section.settings.dropdown_width }}px;
+  }
+  
+  .header__mega-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+  
+  .header__mega-content {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .mega-dropdown__column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .mega-dropdown__heading {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #000;
+    font-weight: 600;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .mega-dropdown__link {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: #666;
+    text-decoration: none;
+    padding: 5px 0;
+    transition: color 0.2s ease;
+  }
+  
+  .mega-dropdown__link:hover {
+    color: #000;
+  }
+  
+  .mega-dropdown__image-section {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  
+  .mega-dropdown__image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+  
+  /* Center Middle - Logo */
+  .header__center-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    position: relative;
+  }
+  
+  .header__heading-logo {
+    max-width: {{ section.settings.logo_width }}px;
+    height: auto;
+  }
+  
+  /* Center Right - Journal & Theme Features */
+  .header__center-right {
+    display: flex;
+    align-items: center;
+    gap: {{ section.settings.right_links_spacing }}px;
+  }
+  
+  .header__decoration-link {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: {{ section.settings.link_color }};
+    text-decoration: none;
+    font-weight: 400;
+    padding: 10px 0;
+  }
+  
+  .header__decoration-link:hover {
+    color: {{ section.settings.link_hover_color }};
+  }
+  
+  /* Right Column - Icons */
+  .header__right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 25px;
+  }
+  
+  .header__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: {{ section.settings.icon_color }};
+  }
+  
+  .header__icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: {{ section.settings.icon_color }};
+  }
+  
+  .header__icon--cart {
+    position: relative;
+  }
+  
+  .cart-count-bubble {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 500;
+  }
+  
+  /* Mobile Menu Button */
+  .header__mobile-menu {
+    display: none;
+    background: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .header__mobile-menu svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  /* Mobile Search */
+  .header__mobile-search {
+    display: none;
+  }
+  
+  /* Dropdown Container */
+  .header__dropdown-container {
+    position: relative;
+  }
+  
+  /* Mobile Menu Drawer */
+  .mobile-menu-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: white;
+    z-index: 9999;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+    padding: 20px;
+  }
+  
+  .mobile-menu-drawer.active {
+    transform: translateX(0);
+  }
+  
+  .mobile-menu__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+  }
+  
+  .mobile-menu__close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #000;
+  }
+  
+  .mobile-menu__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .mobile-menu__item {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .mobile-menu__link {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 16px;
+    color: #000;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .mobile-menu__submenu {
+    display: none;
+    padding-left: 20px;
+    padding-top: 10px;
+  }
+  
+  .mobile-menu__submenu.active {
+    display: block;
+  }
+  
+  .mobile-menu__submenu-item {
+    padding: 10px 0;
+  }
+  
+  .mobile-menu__submenu-link {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    color: #666;
+    text-decoration: none;
+    display: block;
+    padding: 8px 0;
+  }
+  
+  .mobile-menu__submenu-link:hover {
+    color: #000;
+  }
+  
+  .mobile-menu__arrow {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #000;
+  }
+  
+  /* Responsive Design - Tablet & Mobile */
+  @media screen and (max-width: 1200px) {
+    .header__center {
+      gap: 50px;
+    }
+    
+    .header__mega-content {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media screen and (max-width: 1024px) {
+    .header__center {
+      gap: 30px;
+    }
+    
+    .header__mega-content {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    
+    .mega-dropdown__image-section {
+      grid-column: span 2;
+    }
+  }
+  
+  /* Mobile Design (768px and below) */
+  @media screen and (max-width: 768px) {
+    .header {
+      grid-template-columns: 1fr auto 1fr;
+      padding: {{ section.settings.mobile_padding }}px 20px;
+      position: relative;
+    }
+    
+    /* Left Column - Hamburger Menu */
+    .header__left {
+      justify-content: flex-start;
+    }
+    
+    .header__search-icon {
+      display: none;
+    }
+    
+    .header__mobile-menu {
+      display: flex !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+    }
+    
+    /* Center Column - Only Logo */
+    .header__center {
+      gap: 0;
+      justify-content: center;
+    }
+    
+    .header__center-left,
+    .header__center-right,
+    .header__mega-dropdown {
+      display: none;
+    }
+    
+    .header__center-logo {
+      display: flex;
+    }
+    
+    .header__heading-logo {
+      max-width: {{ section.settings.mobile_logo_width }}px !important;
+    }
+    
+    /* Right Column - Search & Cart Icons */
+    .header__right {
+      justify-content: flex-end;
+      gap: 20px;
+    }
+    
+    /* Show mobile search */
+    .header__mobile-search {
+      {% if section.settings.show_search_mobile %}
+      display: flex;
+      {% else %}
+      display: none;
+      {% endif %}
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .header {
+      padding: 12px 15px;
+    }
+    
+    .header__heading-logo {
+      max-width: 120px;
+    }
+    
+    .header__right {
+      gap: 15px;
+    }
+  }
+  
+  /* Logo position styles */
+  {% if section.settings.logo_position == 'left' %}
+    .header__center {
+      justify-content: flex-start;
+      gap: 50px;
+    }
+    
+    .header__center-logo {
+      order: 1;
+    }
+    
+    .header__center-left {
+      order: 2;
+    }
+    
+    .header__center-right {
+      order: 3;
+      margin-left: auto;
+    }
+  {% endif %}
+  
+  /* Sticky header styles */
+  .header-wrapper.sticky {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 999 !important;
+    width: 100% !important;
+    animation: slideDown 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    background-color: {{ section.settings.header_background }} !important;
+  }
+  
+  @keyframes slideDown {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  
+  /* Add padding to body when header is sticky to prevent content jump */
+  body.sticky-header-active {
+    padding-top: var(--header-height, 90px);
+  }
+  
+  /* Ensure header has proper transition */
+  .header-wrapper {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+</style>
+
+<!-- IMPORTANT: Only wrap the actual header content -->
+<div class="custom-header-wrapper" id="custom-header-wrapper">
+  <header class="header-wrapper color-{{ section.settings.color_scheme }} gradient" id="header-wrapper">
+    <div class="header">
+      <!-- Left Column: Search Icon (Desktop) / Hamburger Menu (Mobile) -->
+      <div class="header__left">
+        <button class="header__mobile-menu" type="button" aria-label="Open menu" id="mobile-menu-button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 12h18M3 6h18M3 18h18"/>
+          </svg>
+        </button>
+        
+        <div class="header__search-icon" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+        </div>
+      </div>
+      
+      <!-- Center Column: SHOP | SEASON | Logo | JOURNAL | THEME FEATURE -->
+      <div class="header__center">
+        <!-- Left: SHOP & SEASON Menu with Dropdown Containers -->
+        <div class="header__center-left">
+          <!-- SHOP Dropdown Container -->
+          {% if section.settings.enable_shop_dropdown %}
+          <div class="header__dropdown-container">
+            <button class="header__nav-item shop-dropdown-trigger">
+              {{ section.settings.shop_menu_text | default: 'SHOP' }}
+              <span class="header__nav-arrow"></span>
+            </button>
+            
+            <!-- SHOP Mega Dropdown -->
+            <div class="header__mega-dropdown shop-mega-dropdown">
+              <div class="header__mega-content">
+                <!-- Column 1: Categories -->
+                {% if section.settings.shop_menu_1 %}
+                <div class="mega-dropdown__column">
+                  <h4 class="mega-dropdown__heading">{{ section.settings.shop_column_1_title | default: 'Categories' }}</h4>
+                  {% for link in linklists[section.settings.shop_menu_1].links %}
+                    <a href="{{ link.url }}" class="mega-dropdown__link">{{ link.title }}</a>
+                  {% endfor %}
+                </div>
+                {% endif %}
+                
+                <!-- Column 2: Collections -->
+                {% if section.settings.shop_menu_2 %}
+                <div class="mega-dropdown__column">
+                  <h4 class="mega-dropdown__heading">{{ section.settings.shop_column_2_title | default: 'Collections' }}</h4>
+                  {% for link in linklists[section.settings.shop_menu_2].links %}
+                    <a href="{{ link.url }}" class="mega-dropdown__link">{{ link.title }}</a>
+                  {% endfor %}
+                </div>
+                {% endif %}
+                
+                <!-- Column 3: Featured Products -->
+                {% if section.settings.shop_menu_3 %}
+                <div class="mega-dropdown__column">
+                  <h4 class="mega-dropdown__heading">{{ section.settings.shop_column_3_title | default: 'Featured' }}</h4>
+                  {% for link in linklists[section.settings.shop_menu_3].links %}
+                    <a href="{{ link.url }}" class="mega-dropdown__link">{{ link.title }}</a>
+                  {% endfor %}
+                </div>
+                {% endif %}
+                
+                <!-- Column 4: Image Promo -->
+                {% if section.settings.shop_image_1 or section.settings.shop_image_2 %}
+                <div class="mega-dropdown__image-section">
+                  {% if section.settings.shop_image_1 %}
+                  <div>
+                    <h4 class="mega-dropdown__heading">{{ section.settings.shop_image_1_title | default: 'New Collection' }}</h4>
+                    <img src="{{ section.settings.shop_image_1 | img_url: '400x' }}" alt="{{ section.settings.shop_image_1_title }}" class="mega-dropdown__image">
+                  </div>
+                  {% endif %}
+                  
+                  {% if section.settings.shop_image_2 %}
+                  <div>
+                    <h4 class="mega-dropdown__heading">{{ section.settings.shop_image_2_title | default: 'Best Sellers' }}</h4>
+                    <img src="{{ section.settings.shop_image_2 | img_url: '400x' }}" alt="{{ section.settings.shop_image_2_title }}" class="mega-dropdown__image">
+                  </div>
+                  {% endif %}
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          
+          <!-- SEASON Dropdown Container -->
+          {% if section.settings.enable_season_dropdown %}
+          <div class="header__dropdown-container">
+            <button class="header__nav-item season-dropdown-trigger">
+              {{ section.settings.season_menu_text | default: 'SEASON' }}
+              <span class="header__nav-arrow"></span>
+            </button>
+            
+            <!-- SEASON Mega Dropdown -->
+            <div class="header__mega-dropdown season-mega-dropdown">
+              <div class="header__mega-content">
+                <!-- Column 1: Spring 2022 -->
+                {% if section.settings.season_menu_1 %}
+                <div class="mega-dropdown__column">
+                  <h4 class="mega-dropdown__heading">{{ section.settings.season_column_1_title | default: 'SPRING 2022' }}</h4>
+                  {% for link in linklists[section.settings.season_menu_1].links %}
+                    <a href="{{ link.url }}" class="mega-dropdown__link">{{ link.title }}</a>
+                  {% endfor %}
+                </div>
+                {% endif %}
+                
+                <!-- Column 2: Summer 2022 -->
+                {% if section.settings.season_menu_2 %}
+                <div class="mega-dropdown__column">
+                  <h4 class="mega-dropdown__heading">{{ section.settings.season_column_2_title | default: 'SUMMER 2022' }}</h4>
+                  {% for link in linklists[section.settings.season_menu_2].links %}
+                    <a href="{{ link.url }}" class="mega-dropdown__link">{{ link.title }}</a>
+                  {% endfor %}
+                </div>
+                {% endif %}
+                
+                <!-- Column 3: Fall 2022 -->
+                {% if section.settings.season_menu_3 %}
+                <div class="mega-dropdown__column">
+                  <h4 class="mega-dropdown__heading">{{ section.settings.season_column_3_title | default: 'FALL 2022' }}</h4>
+                  {% for link in linklists[section.settings.season_menu_3].links %}
+                    <a href="{{ link.url }}" class="mega-dropdown__link">{{ link.title }}</a>
+                  {% endfor %}
+                </div>
+                {% endif %}
+                
+                <!-- Column 4: Winter 2022 -->
+                {% if section.settings.season_menu_4 %}
+                <div class="mega-dropdown__column">
+                  <h4 class="mega-dropdown__heading">{{ section.settings.season_column_4_title | default: 'WINTER 2022' }}</h4>
+                  {% for link in linklists[section.settings.season_menu_4].links %}
+                    <a href="{{ link.url }}" class="mega-dropdown__link">{{ link.title }}</a>
+                  {% endfor %}
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+        
+        <!-- Center: Logo -->
+        <div class="header__center-logo">
+          <a href="{{ routes.root_url }}" class="header__heading-link">
+            {%- if section.settings.logo != blank -%}
+              {%- assign logo = section.settings.logo -%}
+              {%- assign logo_alt = logo.alt | default: shop.name | escape -%}
+              {%- assign logo_width = section.settings.logo_width -%}
+              {%- assign logo_height = logo_width | divided_by: logo.aspect_ratio -%}
+              {% capture sizes %}(max-width: 768px) {{ section.settings.mobile_logo_width }}px, {{ logo_width }}px{% endcapture %}
+              {% capture widths %}{{ logo_width }}, {{ logo_width | times: 1.5 | round }}, {{ logo_width | times: 2 }}{% endcapture %}
+              {{
+                logo
+                | image_url: width: 600
+                | image_tag:
+                  class: 'header__heading-logo',
+                  widths: widths,
+                  height: logo_height,
+                  width: logo_width,
+                  alt: logo_alt,
+                  sizes: sizes,
+                  preload: true
+              }}
+            {%- elsif settings.logo != blank -%}
+              {%- assign logo = settings.logo -%}
+              {%- assign logo_alt = logo.alt | default: shop.name | escape -%}
+              {%- assign logo_width = section.settings.logo_width -%}
+              {%- assign logo_height = logo_width | divided_by: logo.aspect_ratio -%}
+              {% capture sizes %}(max-width: 768px) {{ section.settings.mobile_logo_width }}px, {{ logo_width }}px{% endcapture %}
+              {% capture widths %}{{ logo_width }}, {{ logo_width | times: 1.5 | round }}, {{ logo_width | times: 2 }}{% endcapture %}
+              {{
+                logo
+                | image_url: width: 600
+                | image_tag:
+                  class: 'header__heading-logo',
+                  widths: widths,
+                  height: logo_height,
+                  width: logo_width,
+                  alt: logo_alt,
+                  sizes: sizes,
+                  preload: true
+              }}
+            {%- else -%}
+              <span class="h2">{{ shop.name }}</span>
+            {%- endif -%}
+          </a>
+        </div>
+        
+        <!-- Right: JOURNAL & THEME FEATURE Links -->
+        <div class="header__center-right">
+          {% if section.settings.journal_link_text != blank %}
+          <a href="{{ section.settings.journal_link | default: '/pages/journal' }}" class="header__decoration-link">
+            {{ section.settings.journal_link_text }}
+          </a>
+          {% endif %}
+          
+          {% if section.settings.theme_feature_link_text != blank %}
+          <a href="{{ section.settings.theme_feature_link | default: '/pages/theme-features' }}" class="header__decoration-link">
+            {{ section.settings.theme_feature_link_text }}
+          </a>
+          {% endif %}
+        </div>
+      </div>
+      
+      <!-- Right Column: Person & Cart Icons (Desktop) / Search & Cart Icons (Mobile) -->
+      <div class="header__right">
+        <!-- Mobile Search Icon -->
+        <div class="header__mobile-search" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+        </div>
+        
+        <!-- Account Icon -->
+        {%- if shop.customer_accounts_enabled -%}
+          {% if section.settings.show_account_mobile or request.design_mode %}
+          <a
+            href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+            class="header__icon header__icon--account"
+            aria-label="Account"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </a>
+          {% endif %}
+        {%- endif -%}
+        
+        <!-- Cart Icon -->
+        <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart" id="cart-icon-bubble" aria-label="Cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="9" cy="21" r="1"/>
+            <circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          {%- if cart.item_count > 0 -%}
+            <div class="cart-count-bubble">
+              <span aria-hidden="true">{{ cart.item_count }}</span>
+            </div>
+          {%- endif -%}
+        </a>
+      </div>
+    </div>
+  </header>
+</div>
+
+<!-- Mobile Menu Drawer -->
+<div class="mobile-menu-drawer" id="mobile-menu-drawer">
+  <div class="mobile-menu__header">
+    <h3>Menu</h3>
+    <button class="mobile-menu__close" id="mobile-menu-close">✕</button>
+  </div>
+  
+  <nav class="mobile-menu__nav">
+    <!-- SHOP Menu for Mobile -->
+    {% if section.settings.enable_shop_dropdown %}
+    <div class="mobile-menu__item">
+      <button class="mobile-menu__link shop-mobile-trigger">
+        {{ section.settings.shop_menu_text | default: 'SHOP' }}
+        <span class="mobile-menu__arrow"></span>
+      </button>
+      <div class="mobile-menu__submenu" id="shop-mobile-submenu">
+        <!-- Column 1: Categories -->
+        {% if section.settings.shop_menu_1 %}
+        <div class="mobile-menu__submenu-item">
+          <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">{{ section.settings.shop_column_1_title | default: 'Categories' }}</h4>
+          {% for link in linklists[section.settings.shop_menu_1].links %}
+            <a href="{{ link.url }}" class="mobile-menu__submenu-link">{{ link.title }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+        
+        <!-- Column 2: Collections -->
+        {% if section.settings.shop_menu_2 %}
+        <div class="mobile-menu__submenu-item">
+          <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">{{ section.settings.shop_column_2_title | default: 'Collections' }}</h4>
+          {% for link in linklists[section.settings.shop_menu_2].links %}
+            <a href="{{ link.url }}" class="mobile-menu__submenu-link">{{ link.title }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+        
+        <!-- Column 3: Featured Products -->
+        {% if section.settings.shop_menu_3 %}
+        <div class="mobile-menu__submenu-item">
+          <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">{{ section.settings.shop_column_3_title | default: 'Featured' }}</h4>
+          {% for link in linklists[section.settings.shop_menu_3].links %}
+            <a href="{{ link.url }}" class="mobile-menu__submenu-link">{{ link.title }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+    
+    <!-- SEASON Menu for Mobile -->
+    {% if section.settings.enable_season_dropdown %}
+    <div class="mobile-menu__item">
+      <button class="mobile-menu__link season-mobile-trigger">
+        {{ section.settings.season_menu_text | default: 'SEASON' }}
+        <span class="mobile-menu__arrow"></span>
+      </button>
+      <div class="mobile-menu__submenu" id="season-mobile-submenu">
+        <!-- Column 1: Spring 2022 -->
+        {% if section.settings.season_menu_1 %}
+        <div class="mobile-menu__submenu-item">
+          <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">{{ section.settings.season_column_1_title | default: 'SPRING 2022' }}</h4>
+          {% for link in linklists[section.settings.season_menu_1].links %}
+            <a href="{{ link.url }}" class="mobile-menu__submenu-link">{{ link.title }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+        
+        <!-- Column 2: Summer 2022 -->
+        {% if section.settings.season_menu_2 %}
+        <div class="mobile-menu__submenu-item">
+          <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">{{ section.settings.season_column_2_title | default: 'SUMMER 2022' }}</h4>
+          {% for link in linklists[section.settings.season_menu_2].links %}
+            <a href="{{ link.url }}" class="mobile-menu__submenu-link">{{ link.title }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+        
+        <!-- Column 3: Fall 2022 -->
+        {% if section.settings.season_menu_3 %}
+        <div class="mobile-menu__submenu-item">
+          <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">{{ section.settings.season_column_3_title | default: 'FALL 2022' }}</h4>
+          {% for link in linklists[section.settings.season_menu_3].links %}
+            <a href="{{ link.url }}" class="mobile-menu__submenu-link">{{ link.title }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+        
+        <!-- Column 4: Winter 2022 -->
+        {% if section.settings.season_menu_4 %}
+        <div class="mobile-menu__submenu-item">
+          <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">{{ section.settings.season_column_4_title | default: 'WINTER 2022' }}</h4>
+          {% for link in linklists[section.settings.season_menu_4].links %}
+            <a href="{{ link.url }}" class="mobile-menu__submenu-link">{{ link.title }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+    
+    <!-- JOURNAL Link for Mobile -->
+    {% if section.settings.journal_link_text != blank %}
+    <div class="mobile-menu__item">
+      <a href="{{ section.settings.journal_link | default: '/pages/journal' }}" class="mobile-menu__link">
+        {{ section.settings.journal_link_text }}
+      </a>
+    </div>
+    {% endif %}
+    
+    <!-- THEME FEATURE Link for Mobile -->
+    {% if section.settings.theme_feature_link_text != blank %}
+    <div class="mobile-menu__item">
+      <a href="{{ section.settings.theme_feature_link | default: '/pages/theme-features' }}" class="mobile-menu__link">
+        {{ section.settings.theme_feature_link_text }}
+      </a>
+    </div>
+    {% endif %}
+  </nav>
+</div>
+
+{%- if settings.cart_type == 'notification' -%}
+  {%- render 'cart-notification',
+    color_scheme: section.settings.color_scheme
+  -%}
+{%- endif -%}
+
+<!-- Fixed Sticky Header JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  {% if section.settings.enable_sticky_header %}
+  // Sticky header functionality with throttling
+  const headerWrapper = document.getElementById('header-wrapper');
+  const customHeaderWrapper = document.getElementById('custom-header-wrapper');
+  
+  if (headerWrapper && customHeaderWrapper) {
+    // Get the header height
+    const headerHeight = headerWrapper.offsetHeight;
+    
+    // Set CSS custom property for header height
+    document.documentElement.style.setProperty('--header-height', headerHeight + 'px');
+    
+    // Track sticky state
+    let isSticky = false;
+    let lastScrollTop = 0;
+    let ticking = false;
+    
+    // Get the position where header should become sticky
+    const stickyPoint = customHeaderWrapper.offsetTop;
+    
+    // Throttle function to limit scroll event frequency
+    function throttle(callback, limit) {
+      let waiting = false;
+      return function() {
+        if (!waiting) {
+          callback.apply(this, arguments);
+          waiting = true;
+          setTimeout(function() {
+            waiting = false;
+          }, limit);
+        }
+      };
+    }
+    
+    // Function to handle scroll with debouncing
+    function handleScroll() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      // Determine scroll direction
+      const scrollingDown = scrollTop > lastScrollTop;
+      lastScrollTop = scrollTop;
+      
+      // Calculate when to make header sticky
+      if (scrollTop > stickyPoint) {
+        if (!isSticky) {
+          // Add sticky class
+          headerWrapper.classList.add('sticky');
+          document.body.classList.add('sticky-header-active');
+          headerWrapper.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+          isSticky = true;
+        }
+      } else {
+        if (isSticky) {
+          // Remove sticky class
+          headerWrapper.classList.remove('sticky');
+          document.body.classList.remove('sticky-header-active');
+          headerWrapper.style.boxShadow = 'none';
+          isSticky = false;
+        }
+      }
+    }
+    
+    // Create throttled version of handleScroll
+    const throttledHandleScroll = throttle(handleScroll, 50);
+    
+    // Initial check
+    handleScroll();
+    
+    // Add scroll event listener with throttling
+    window.addEventListener('scroll', throttledHandleScroll, { passive: true });
+    
+    // Recalculate on resize
+    window.addEventListener('resize', function() {
+      // Update header height and sticky point
+      const newHeight = headerWrapper.offsetHeight;
+      document.documentElement.style.setProperty('--header-height', newHeight + 'px');
+      
+      // Re-check sticky state
+      handleScroll();
+    });
+    
+    // Handle page load with announcement bar
+    window.addEventListener('load', function() {
+      // Recalculate after everything is loaded
+      setTimeout(function() {
+        const newHeight = headerWrapper.offsetHeight;
+        document.documentElement.style.setProperty('--header-height', newHeight + 'px');
+        handleScroll();
+      }, 100);
+    });
+  }
+  {% endif %}
+  
+  // Mobile Menu Elements
+  const mobileMenuButton = document.querySelector('.header__mobile-menu');
+  const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
+  const mobileMenuClose = document.getElementById('mobile-menu-close');
+  
+  // Mobile Submenu Triggers
+  const shopMobileTrigger = document.querySelector('.shop-mobile-trigger');
+  const seasonMobileTrigger = document.querySelector('.season-mobile-trigger');
+  const shopMobileSubmenu = document.getElementById('shop-mobile-submenu');
+  const seasonMobileSubmenu = document.getElementById('season-mobile-submenu');
+  
+  // ========== MOBILE MENU FUNCTIONALITY ==========
+  
+  // Open mobile menu
+  if (mobileMenuButton) {
+    mobileMenuButton.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (mobileMenuDrawer) {
+        mobileMenuDrawer.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  }
+  
+  // Close mobile menu
+  if (mobileMenuClose) {
+    mobileMenuClose.addEventListener('click', function() {
+      if (mobileMenuDrawer) {
+        mobileMenuDrawer.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+  
+  // Close mobile menu when clicking outside
+  document.addEventListener('click', function(e) {
+    if (mobileMenuDrawer && mobileMenuDrawer.classList.contains('active')) {
+      if (!mobileMenuDrawer.contains(e.target) && e.target !== mobileMenuButton) {
+        mobileMenuDrawer.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+  });
+  
+  // Close mobile menu on escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && mobileMenuDrawer && mobileMenuDrawer.classList.contains('active')) {
+      mobileMenuDrawer.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+  
+  // Shop mobile submenu toggle
+  if (shopMobileTrigger && shopMobileSubmenu) {
+    shopMobileTrigger.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      shopMobileSubmenu.classList.toggle('active');
+      
+      if (seasonMobileSubmenu && seasonMobileSubmenu.classList.contains('active')) {
+        seasonMobileSubmenu.classList.remove('active');
+      }
+    });
+  }
+  
+  // Season mobile submenu toggle
+  if (seasonMobileTrigger && seasonMobileSubmenu) {
+    seasonMobileTrigger.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      seasonMobileSubmenu.classList.toggle('active');
+      
+      if (shopMobileSubmenu && shopMobileSubmenu.classList.contains('active')) {
+        shopMobileSubmenu.classList.remove('active');
+      }
+    });
+  }
+  
+  // ========== DESKTOP DROPDOWN FUNCTIONALITY ==========
+  
+  if (window.innerWidth > 768) {
+    const shopTrigger = document.querySelector('.shop-dropdown-trigger');
+    const seasonTrigger = document.querySelector('.season-dropdown-trigger');
+    const shopDropdown = document.querySelector('.shop-mega-dropdown');
+    const seasonDropdown = document.querySelector('.season-mega-dropdown');
+    
+    let activeDropdown = null;
+    let closeTimeout;
+    
+    function closeAllDropdowns() {
+      if (activeDropdown) {
+        activeDropdown.classList.remove('active');
+        activeDropdown = null;
+      }
+    }
+    
+    function openDropdown(dropdown) {
+      closeAllDropdowns();
+      dropdown.classList.add('active');
+      activeDropdown = dropdown;
+    }
+    
+    if (shopTrigger && shopDropdown) {
+      const shopContainer = shopTrigger.closest('.header__dropdown-container');
+      
+      shopContainer.addEventListener('mouseenter', function() {
+        clearTimeout(closeTimeout);
+        openDropdown(shopDropdown);
+      });
+      
+      shopContainer.addEventListener('mouseleave', function() {
+        closeTimeout = setTimeout(closeAllDropdowns, 300);
+      });
+      
+      shopTrigger.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (activeDropdown === shopDropdown) {
+          closeAllDropdowns();
+        } else {
+          openDropdown(shopDropdown);
+        }
+      });
+    }
+    
+    if (seasonTrigger && seasonDropdown) {
+      const seasonContainer = seasonTrigger.closest('.header__dropdown-container');
+      
+      seasonContainer.addEventListener('mouseenter', function() {
+        clearTimeout(closeTimeout);
+        openDropdown(seasonDropdown);
+      });
+      
+      seasonContainer.addEventListener('mouseleave', function() {
+        closeTimeout = setTimeout(closeAllDropdowns, 300);
+      });
+      
+      seasonTrigger.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (activeDropdown === seasonDropdown) {
+          closeAllDropdowns();
+        } else {
+          openDropdown(seasonDropdown);
+        }
+      });
+    }
+    
+    if (shopDropdown) {
+      shopDropdown.addEventListener('mouseenter', function() {
+        clearTimeout(closeTimeout);
+      });
+      
+      shopDropdown.addEventListener('mouseleave', function() {
+        closeTimeout = setTimeout(closeAllDropdowns, 300);
+      });
+    }
+    
+    if (seasonDropdown) {
+      seasonDropdown.addEventListener('mouseenter', function() {
+        clearTimeout(closeTimeout);
+      });
+      
+      seasonDropdown.addEventListener('mouseleave', function() {
+        closeTimeout = setTimeout(closeAllDropdowns, 300);
+      });
+    }
+    
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.header__dropdown-container') && !e.target.closest('.header__mega-dropdown')) {
+        closeAllDropdowns();
+      }
+    });
+    
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeAllDropdowns();
+      }
+    });
+  }
+  
+  // ========== SEARCH FUNCTIONALITY ==========
+  
+  const searchIcons = document.querySelectorAll('.header__search-icon, .header__mobile-search');
+  const searchModal = document.querySelector('search-modal') || document.querySelector('.search-modal');
+  
+  searchIcons.forEach(icon => {
+    icon.addEventListener('click', () => {
+      if (searchModal) {
+        searchModal.open();
+      } else {
+        window.location.href = '{{ routes.search_url }}';
+      }
+    });
+  });
+  
+  const mobileSearch = document.querySelector('.header__mobile-search');
+  if (mobileSearch) {
+    mobileSearch.addEventListener('click', () => {
+      if (searchModal) {
+        searchModal.open();
+      } else {
+        window.location.href = '{{ routes.search_url }}';
+      }
+    });
+  }
+});
+
+window.addEventListener('resize', function() {
+  const shopDropdown = document.querySelector('.shop-mega-dropdown');
+  const seasonDropdown = document.querySelector('.season-mega-dropdown');
+  
+  if (window.innerWidth <= 768) {
+    if (shopDropdown) shopDropdown.classList.remove('active');
+    if (seasonDropdown) seasonDropdown.classList.remove('active');
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo Image",
+      "info": "Upload your logo (overrides theme settings)"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo Width",
+      "default": 200
+    },
+    {
+      "type": "select",
+      "id": "logo_position",
+      "label": "Logo Position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "center",
+      "info": "Logo position in the header layout"
+    },
+    {
+      "type": "header",
+      "content": "Navigation Menu Settings"
+    },
+    {
+      "type": "text",
+      "id": "shop_menu_text",
+      "label": "SHOP Menu Text",
+      "default": "SHOP"
+    },
+    {
+      "type": "text",
+      "id": "season_menu_text",
+      "label": "SEASON Menu Text",
+      "default": "SEASON"
+    },
+    {
+      "type": "color",
+      "id": "menu_text_color",
+      "label": "Menu Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "menu_text_hover_color",
+      "label": "Menu Text Hover Color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "menu_font_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Menu Font Size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "menu_spacing",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Menu Spacing",
+      "default": 30,
+      "info": "Space between SHOP and SEASON"
+    },
+    {
+      "type": "header",
+      "content": "Dropdown Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_shop_dropdown",
+      "label": "Enable SHOP Dropdown",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_season_dropdown",
+      "label": "Enable SEASON Dropdown",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "dropdown_background",
+      "label": "Dropdown Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "dropdown_width",
+      "min": 800,
+      "max": 1400,
+      "step": 100,
+      "unit": "px",
+      "label": "Dropdown Width",
+      "default": 1200
+    },
+    {
+      "type": "header",
+      "content": "SHOP Dropdown Content"
+    },
+    {
+      "type": "link_list",
+      "id": "shop_menu_1",
+      "label": "SHOP Column 1 Menu"
+    },
+    {
+      "type": "text",
+      "id": "shop_column_1_title",
+      "label": "SHOP Column 1 Title",
+      "default": "Categories"
+    },
+    {
+      "type": "link_list",
+      "id": "shop_menu_2",
+      "label": "SHOP Column 2 Menu"
+    },
+    {
+      "type": "text",
+      "id": "shop_column_2_title",
+      "label": "SHOP Column 2 Title",
+      "default": "Collections"
+    },
+    {
+      "type": "link_list",
+      "id": "shop_menu_3",
+      "label": "SHOP Column 3 Menu"
+    },
+    {
+      "type": "text",
+      "id": "shop_column_3_title",
+      "label": "SHOP Column 3 Title",
+      "default": "Featured"
+    },
+    {
+      "type": "image_picker",
+      "id": "shop_image_1",
+      "label": "SHOP Dropdown Image 1",
+      "info": "Image for SHOP mega dropdown"
+    },
+    {
+      "type": "text",
+      "id": "shop_image_1_title",
+      "label": "SHOP Image 1 Title",
+      "default": "New Collection"
+    },
+    {
+      "type": "image_picker",
+      "id": "shop_image_2",
+      "label": "SHOP Dropdown Image 2",
+      "info": "Image for SHOP mega dropdown"
+    },
+    {
+      "type": "text",
+      "id": "shop_image_2_title",
+      "label": "SHOP Image 2 Title",
+      "default": "Best Sellers"
+    },
+    {
+      "type": "header",
+      "content": "SEASON Dropdown Content"
+    },
+    {
+      "type": "link_list",
+      "id": "season_menu_1",
+      "label": "SEASON Column 1 Menu"
+    },
+    {
+      "type": "text",
+      "id": "season_column_1_title",
+      "label": "SEASON Column 1 Title",
+      "default": "SPRING 2022"
+    },
+    {
+      "type": "link_list",
+      "id": "season_menu_2",
+      "label": "SEASON Column 2 Menu"
+    },
+    {
+      "type": "text",
+      "id": "season_column_2_title",
+      "label": "SEASON Column 2 Title",
+      "default": "SUMMER 2022"
+    },
+    {
+      "type": "link_list",
+      "id": "season_menu_3",
+      "label": "SEASON Column 3 Menu"
+    },
+    {
+      "type": "text",
+      "id": "season_column_3_title",
+      "label": "SEASON Column 3 Title",
+      "default": "FALL 2022"
+    },
+    {
+      "type": "link_list",
+      "id": "season_menu_4",
+      "label": "SEASON Column 4 Menu"
+    },
+    {
+      "type": "text",
+      "id": "season_column_4_title",
+      "label": "SEASON Column 4 Title",
+      "default": "WINTER 2022"
+    },
+    {
+      "type": "header",
+      "content": "Right Side Links"
+    },
+    {
+      "type": "text",
+      "id": "journal_link_text",
+      "label": "Journal Link Text",
+      "default": "JOURNAL"
+    },
+    {
+      "type": "url",
+      "id": "journal_link",
+      "label": "Journal Link URL"
+    },
+    {
+      "type": "text",
+      "id": "theme_feature_link_text",
+      "label": "Theme Feature Link Text",
+      "default": "THEME FEATURE"
+    },
+    {
+      "type": "url",
+      "id": "theme_feature_link",
+      "label": "Theme Feature Link URL"
+    },
+    {
+      "type": "range",
+      "id": "right_links_spacing",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Right Links Spacing",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Header Layout"
+    },
+    {
+      "type": "range",
+      "id": "header_padding_top",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Header Top Padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "header_padding_bottom",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Header Bottom Padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "header_padding_sides",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Header Side Padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "logo_section_gap",
+      "min": 50,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo Section Gap",
+      "default": 100,
+      "info": "Space between logo and left/right sections"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "header_background",
+      "label": "Header Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "link_hover_color",
+      "label": "Link Hover Color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search_mobile",
+      "label": "Show Search Icon on Mobile",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account_mobile",
+      "label": "Show Account Icon on Mobile",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "mobile_logo_width",
+      "min": 100,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Mobile Logo Width",
+      "default": 150
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Header Padding",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Sticky Header"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_header",
+      "label": "Enable Sticky Header",
+      "default": true,
+      "info": "Header will stick to top when scrolling past it"
+    }
+  ]
+}
+{% endschema %}

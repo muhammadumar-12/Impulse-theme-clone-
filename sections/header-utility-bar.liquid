@@ -1,0 +1,392 @@
+<style>
+  /* Main container */
+  .header-utility-bar {
+    font-size: 13px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    width: 100%;
+    background-color: #ffffff;
+  }
+
+  /* Container for content with max width */
+  .header-utility-bar .page-width {
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* Inner flex container */
+  .header-utility-bar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 38px;
+  }
+
+  /* Left menu styling */
+  .header-utility-menu ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 30px; /* Space between menu items */
+  }
+
+  .header-utility-menu a {
+    text-decoration: none;
+    color: #000000;
+    font-weight: 500;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    transition: opacity 0.2s ease;
+    padding:5px 0;
+  }
+
+  .header-utility-menu a:hover {
+    opacity: 0.7;
+  }
+
+  /* Right side container */
+  .header-utility-bar__right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  /* Social Icons Styling */
+  .header-social-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 24px;
+  }
+
+  .header-social-icons__item {
+    display: inline-block;
+  }
+
+  .header-social-icons__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000000;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .header-social-icons__link:hover {
+    opacity: 0.7;
+  }
+
+  .header-social-icons__icon {
+    width: 16px;
+    height: 40px;
+    fill: currentColor;
+  }
+
+  /* Country/Currency Selector Styling */
+  .country-selector {
+    position: relative;
+    display: inline-block;
+  }
+
+  .country-selector__button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #000000;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 8px 20px 8px 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .country-selector__button::after {
+    content: "▼";
+    font-size: 8px;
+    margin-left: 5px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .country-selector__dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    min-width: 200px;
+    z-index: 100;
+    display: none;
+    padding: 10px 0;
+  }
+
+  .country-selector:hover .country-selector__dropdown {
+    display: block;
+  }
+
+  .country-selector__item {
+    padding: 8px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .country-selector__item:hover {
+    background-color: #f8f8f8;
+  }
+
+  .country-selector__item.active {
+    font-weight: 600;
+  }
+
+  .country-selector__currency {
+    color: #666;
+    font-size: 12px;
+    margin-left: 10px;
+  }
+
+  /* Vertical separator between social icons and country selector */
+  .header-utility-bar__separator {
+    width: 1px;
+    height: 15px;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  /* Mobile responsiveness - HIDE ENTIRE SECTION ON MOBILE */
+@media (max-width: 768px) {
+  .header-utility-section {
+    display: none !important;
+  }
+}
+   
+</style>
+
+<div class="header-utility-bar">
+  <div class="page-width">
+    <div class="header-utility-bar__inner">
+      
+      <!-- LEFT: MENU ITEMS -->
+      <div class="header-utility-bar__left">
+        {% if section.settings.menu != blank %}
+          <nav class="header-utility-menu" aria-label="Utility menu">
+            <ul>
+              {% for link in section.settings.menu.links %}
+                <li>
+                  <a href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %}>
+                    {{ link.title }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </nav>
+        {% else %}
+          <!-- Default menu items as shown in screenshot -->
+          <nav class="header-utility-menu" aria-label="Utility menu">
+            <ul>
+              <li><a href="#">Tops</a></li>
+              <li><a href="#">Tunics</a></li>
+              <li><a href="#">Dresses</a></li>
+              <li><a href="#">Sweatshirts</a></li>
+            </ul>
+          </nav>
+        {% endif %}
+      </div>
+
+      <!-- RIGHT: SOCIAL ICONS + COUNTRY SELECTOR -->
+      <div class="header-utility-bar__right">
+        {% if section.settings.show_social %}
+          <ul class="header-social-icons" aria-label="Social media links">
+            {% if section.settings.facebook_link != blank %}
+              <li class="header-social-icons__item">
+                <a href="{{ section.settings.facebook_link }}" class="header-social-icons__link" target="_blank" rel="noopener" aria-label="Facebook">
+                  <svg class="header-social-icons__icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
+                </a>
+              </li>
+            {% endif %}
+            
+            {% if section.settings.instagram_link != blank %}
+              <li class="header-social-icons__item">
+                <a href="{{ section.settings.instagram_link }}" class="header-social-icons__link" target="_blank" rel="noopener" aria-label="Instagram">
+                  <svg class="header-social-icons__icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                  </svg>
+                </a>
+              </li>
+            {% endif %}
+            
+            {% if section.settings.pinterest_link != blank %}
+              <li class="header-social-icons__item">
+                <a href="{{ section.settings.pinterest_link }}" class="header-social-icons__link" target="_blank" rel="noopener" aria-label="Pinterest">
+                  <svg class="header-social-icons__icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.768 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/>
+                  </svg>
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+          
+          {% if section.settings.show_social and section.settings.show_country %}
+            <div class="header-utility-bar__separator"></div>
+          {% endif %}
+        {% endif %}
+
+        {% if section.settings.show_country %}
+          <div class="country-selector">
+            <button class="country-selector__button" aria-expanded="false" aria-controls="country-dropdown">
+              <span class="country-selector__current">
+                {%- if localization.country and localization.currency -%}
+                  {{ localization.country.name }} ({{ localization.currency.iso_code }} {{ localization.currency.symbol }})
+                {%- else -%}
+                  {{ section.settings.default_country }}
+                {%- endif -%}
+              </span>
+            </button>
+            
+            <div class="country-selector__dropdown" id="country-dropdown">
+              <!-- Country options will be populated by JavaScript -->
+              <div class="country-selector__item active">
+                <span>Pakistan</span>
+                <span class="country-selector__currency">USD $</span>
+              </div>
+              <div class="country-selector__item">
+                <span>United States</span>
+                <span class="country-selector__currency">USD $</span>
+              </div>
+              <div class="country-selector__item">
+                <span>United Kingdom</span>
+                <span class="country-selector__currency">GBP £</span>
+              </div>
+              <div class="country-selector__item">
+                <span>Canada</span>
+                <span class="country-selector__currency">CAD $</span>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Country selector functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const countryButton = document.querySelector('.country-selector__button');
+    const countryDropdown = document.querySelector('.country-selector__dropdown');
+    
+    if (countryButton && countryDropdown) {
+      // Toggle dropdown on button click
+      countryButton.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isExpanded = countryButton.getAttribute('aria-expanded') === 'true';
+        countryButton.setAttribute('aria-expanded', !isExpanded);
+        countryDropdown.style.display = isExpanded ? 'none' : 'block';
+      });
+      
+      // Handle country selection
+      countryDropdown.querySelectorAll('.country-selector__item').forEach(item => {
+        item.addEventListener('click', function() {
+          const country = this.querySelector('span:first-child').textContent;
+          const currency = this.querySelector('.country-selector__currency').textContent;
+          
+          // Update button text
+          document.querySelector('.country-selector__current').textContent = `${country} (${currency})`;
+          
+          // Update active state
+          countryDropdown.querySelectorAll('.country-selector__item').forEach(i => {
+            i.classList.remove('active');
+          });
+          this.classList.add('active');
+          
+          // Close dropdown
+          countryButton.setAttribute('aria-expanded', 'false');
+          countryDropdown.style.display = 'none';
+        });
+      });
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!countryButton.contains(e.target) && !countryDropdown.contains(e.target)) {
+          countryButton.setAttribute('aria-expanded', 'false');
+          countryDropdown.style.display = 'none';
+        }
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Header Utility Bar",
+  "class": "header-utility-section",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Left menu",
+      "info": "Leave empty to use default menu items"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "label": "Show social media icons",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "facebook_link",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
+      "id": "instagram_link",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "pinterest_link",
+      "label": "Pinterest URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country",
+      "label": "Show country/currency selector",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "default_country",
+      "label": "Default country display",
+      "default": "Pakistan (USD $)",
+      "info": "Displayed when localization is not available"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header Utility Bar",
+      "settings": {
+        "show_social": true,
+        "show_country": true,
+        "default_country": "Pakistan (USD $)"
+      }
+    }
+  ]
+}
+{% endschema %}
