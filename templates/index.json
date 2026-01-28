@@ -204,6 +204,29 @@
         "right_button_hover_text_color": "#000000",
         "right_button_hover_border_color": "#ffffff"
       }
+    },
+    "rich_text_8aeaVr": {
+      "type": "rich-text",
+      "blocks": {
+        "text_yWJkpU": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Fashion inspired by where we're from — the sunny shores of California.<br/>Products provided by <a href=\"https://www.piko.com/\" title=\"https://www.piko.com/\">PIKO</a></p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_yWJkpU"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
     }
   },
   "order": [
@@ -211,6 +234,7 @@
     "featured_collection",
     "1769151733e96072b1",
     "background_image_tDpgX7",
-    "new_arrival_FXUrB8"
+    "new_arrival_FXUrB8",
+    "rich_text_8aeaVr"
   ]
 }
