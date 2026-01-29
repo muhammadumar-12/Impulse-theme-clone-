@@ -1,209 +1,97 @@
-{%- style -%}
-  /* Hero Banner Styles */
+{{ 'hero-banner.css' | asset_url | stylesheet_tag }}
+
+<style>
   .hero-banner-{{ section.id }} {
-    padding-top: {{ section.settings.padding_top }}px;
-    padding-bottom: {{ section.settings.padding_bottom }}px;
-    padding-left: {{ section.settings.padding_left }}px;
-    padding-right: {{ section.settings.padding_right }}px;
+    padding: {{ section.settings.padding_top }}px {{ section.settings.padding_right }}px {{ section.settings.padding_bottom }}px {{ section.settings.padding_left }}px;
+    --overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
   }
 
-  /* Dark overlay on image container - always visible */
-  .hero-banner__image-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, {{ section.settings.overlay_opacity | divided_by: 100.0 }});
-    z-index: 1;
-  }
-
-  .hero-banner__content {
-    position: relative;
-    z-index: 2;
-  }
-
-  /* Text spacing with customizable values */
-  .hero-banner__subheading {
+  .hero-banner-{{ section.id }} .hero-banner__subheading {
     font-size: {{ section.settings.subheading_font_size }}px;
     font-weight: {{ section.settings.subheading_font_weight }};
     margin-bottom: {{ section.settings.subheading_spacing }}px;
     color: {{ section.settings.text_color }};
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
   }
 
-  .hero-banner__heading {
+  .hero-banner-{{ section.id }} .hero-banner__heading {
     font-size: {{ section.settings.heading_font_size }}px;
     font-weight: {{ section.settings.heading_font_weight }};
     margin-bottom: {{ section.settings.heading_spacing }}px;
     color: {{ section.settings.text_color }};
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-top: -10px;
   }
 
-  .hero-banner__description {
+  .hero-banner-{{ section.id }} .hero-banner__description {
     font-size: {{ section.settings.description_font_size }}px;
     font-weight: {{ section.settings.description_font_weight }};
-    color: {{ section.settings.text_color }};
     max-width: {{ section.settings.text_max_width }}px;
-    margin: 0 auto;
-    line-height: 1.6;
-  }
-
-  /* Description spacing (bottom margin) */
-  .hero-banner__description {
     margin-bottom: {{ section.settings.description_spacing }}px;
+    color: {{ section.settings.text_color }};
   }
 
-  /* Layout Styles */
-  .hero-banner {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-banner--full-width {
-    width: 100%;
-  }
-
-  .hero-banner__container {
-    position: relative;
-  }
-
-  .hero-banner__inner {
-    position: relative;
-    min-height: 500px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .hero-banner__image-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .hero-banner__image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .hero-banner__content {
-    text-align: center;
-    width: 100%;
-  }
-
-  .hero-banner__content--left {
-    text-align: left;
-  }
-
-  .hero-banner__content--right {
-    text-align: right;
-  }
-
-  .hero-banner__text-container {
-    max-width: 100%;
-  }
-
-  /* Responsive Styles */
   @media screen and (max-width: 749px) {
     .hero-banner-{{ section.id }} {
-      padding-top: {{ section.settings.padding_top_mobile }}px;
-      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
-      padding-left: {{ section.settings.padding_left_mobile }}px;
-      padding-right: {{ section.settings.padding_right_mobile }}px;
+      padding: {{ section.settings.padding_top_mobile }}px {{ section.settings.padding_right_mobile }}px {{ section.settings.padding_bottom_mobile }}px {{ section.settings.padding_left_mobile }}px;
     }
 
-    .hero-banner__subheading {
+    .hero-banner-{{ section.id }} .hero-banner__subheading {
       font-size: {{ section.settings.subheading_font_size_mobile }}px;
     }
 
-    .hero-banner__heading {
+    .hero-banner-{{ section.id }} .hero-banner__heading {
       font-size: {{ section.settings.heading_font_size_mobile }}px;
     }
 
-    .hero-banner__description {
+    .hero-banner-{{ section.id }} .hero-banner__description {
       font-size: {{ section.settings.description_font_size_mobile }}px;
     }
-
-    .hero-banner__inner {
-      min-height: 300px;
-    }
   }
-
-  /* Responsive Image Helper */
-  .responsive-image__wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-  }
-
-  .responsive-image__image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-{%- endstyle -%}
+</style>
 
 <div class="hero-banner hero-banner-{{ section.id }} {% if section.settings.full_width %}hero-banner--full-width{% endif %}">
   <div class="hero-banner__container {% unless section.settings.full_width %}page-width{% endunless %}">
     <div class="hero-banner__inner">
-      {%- if section.settings.image != blank -%}
+
+      {% if section.settings.image %}
         <div class="hero-banner__image-container">
-          {%- assign image = section.settings.image -%}
           <img
-            srcset="
-              {%- if image.width >= 375 -%}{{ image | image_url: width: 375 }} 375w,{%- endif -%}
-              {%- if image.width >= 750 -%}{{ image | image_url: width: 750 }} 750w,{%- endif -%}
-              {%- if image.width >= 1100 -%}{{ image | image_url: width: 1100 }} 1100w,{%- endif -%}
-              {%- if image.width >= 1500 -%}{{ image | image_url: width: 1500 }} 1500w,{%- endif -%}
-              {%- if image.width >= 1780 -%}{{ image | image_url: width: 1780 }} 1780w,{%- endif -%}
-              {%- if image.width >= 2000 -%}{{ image | image_url: width: 2000 }} 2000w,{%- endif -%}
-              {%- if image.width >= 3000 -%}{{ image | image_url: width: 3000 }} 3000w,{%- endif -%}
-              {{ image | image_url }} {{ image.width }}w
-            "
-            sizes="100vw"
-            src="{{ image | image_url: width: 1500 }}"
+            src="{{ section.settings.image | image_url: width: 2000 }}"
+            alt="{{ section.settings.image.alt | escape }}"
             loading="lazy"
             class="hero-banner__image"
-            alt="{{ image.alt | escape }}"
-            width="{{ image.width }}"
-            height="{{ image.height }}"
+            width="{{ section.settings.image.width }}"
+            height="{{ section.settings.image.height }}"
           >
         </div>
-      {%- else -%}
+      {% else %}
         <div class="hero-banner__image-container">
           {{ 'lifestyle-2' | placeholder_svg_tag: 'hero-banner__image placeholder' }}
         </div>
-      {%- endif -%}
+      {% endif %}
 
       <div class="hero-banner__content hero-banner__content--{{ section.settings.text_alignment }}">
         <div class="hero-banner__text-container">
-          {%- if section.settings.subheading != blank -%}
+
+          {% if section.settings.subheading != blank %}
             <div class="hero-banner__subheading">{{ section.settings.subheading }}</div>
-          {%- endif -%}
+          {% endif %}
 
-          {%- if section.settings.heading != blank -%}
+          {% if section.settings.heading != blank %}
             <h2 class="hero-banner__heading">{{ section.settings.heading }}</h2>
-          {%- endif -%}
+          {% endif %}
 
-          {%- if section.settings.description != blank -%}
+          {% if section.settings.description != blank %}
             <div class="hero-banner__description">{{ section.settings.description }}</div>
-          {%- endif -%}
+          {% endif %}
+
         </div>
       </div>
+
     </div>
   </div>
 </div>
+
+
+
 
 {% schema %}
 {
