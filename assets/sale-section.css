@@ -1,0 +1,75 @@
+/* Sale Section Styles */
+.sale-section {
+  width: 100%;
+}
+
+.sale-section .page-width {
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.sale-section.full-width .page-width {
+  max-width: 100%;
+  padding: 0;
+}
+
+.sale-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.sale-column {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+}
+
+.sale-content {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.sale-text-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+}
+
+.sale-column-1 .sale-text-wrapper { flex: 0 0 40%; }
+.sale-column-1 .sale-images-wrapper { flex: 0 0 60%; }
+
+.sale-column-2 .sale-text-wrapper { flex: 0 0 28%; }
+/* .sale-column-2 .sale-images-wrapper { flex: 0 0 80%; } */
+
+.sale-images-wrapper {
+  display: flex;
+  height: 100%;
+}
+
+.sale-images {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.sale-image-link {
+  flex: 1 1 0;
+  min-width: 0;
+
+}
+
+.sale-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .sale-container {
+    grid-template-columns: 1fr;
+  }
+}

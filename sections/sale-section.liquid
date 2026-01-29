@@ -1,361 +1,118 @@
-{%- style -%}
-  /* Sale Section Styles */
-  .sale-section {
-    width: 100%;
-  }
+{{ 'sale-section.css' | asset_url | stylesheet_tag }}
 
-  .sale-section-{{ section.id }} {
+<div
+  class="sale-section {% if section.settings.full_width %}full-width{% endif %}"
+  style="
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
     margin-top: {{ section.settings.margin_top }}px;
     margin-bottom: {{ section.settings.margin_bottom }}px;
-  }
+  "
+>
+  <div
+    class="page-width"
+    style="max-width: {{ section.settings.container_width }}px;"
+  >
+    <div
+      class="sale-container"
+      style="gap: {{ section.settings.gap_between }}px;"
+    >
 
-  .sale-section-{{ section.id }} .page-width {
-    max-width: {{ section.settings.container_width }}px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-
-  .sale-section-{{ section.id }}.full-width .page-width {
-    max-width: 100%;
-    padding: 0;
-  }
-
-  .sale-section-{{ section.id }} .sale-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: {{ section.settings.gap_between }}px;
-  }
-
-  .sale-section-{{ section.id }} .sale-column {
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    height: {{ section.settings.column_height_mobile }}px;
-  }
-
-  .sale-section-{{ section.id }} .sale-content {
-    display: flex;
-    width: 100%;
-    height: 100%;
-  }
-
-  /* Text section - First column: 40%, Second column: 30% */
-  .sale-section-{{ section.id }} .sale-text-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    text-align: center;
-  }
-
-  /* First column: Text takes 40% */
-  .sale-section-{{ section.id }} .sale-column-1 .sale-text-wrapper {
-    flex: 0 0 40%;
-  }
-
-  /* Second column: Text takes 30% */
-  .sale-section-{{ section.id }} .sale-column-2 .sale-text-wrapper {
-    flex: 0 0 30%;
-  }
-
-  /* Images section */
-  .sale-section-{{ section.id }} .sale-images-wrapper {
-    display: flex;
-    height: 100%;
-  }
-
-  /* First column: Images take 60% with padding */
-  .sale-section-{{ section.id }} .sale-column-1 .sale-images-wrapper {
-    flex: 0 0 60%;
-    padding: {{ section.settings.image_padding_top }}px 0 {{ section.settings.image_padding_bottom }}px 0;
-  }
-
-  /* Second column: Images take 70% without padding */
-  .sale-section-{{ section.id }} .sale-column-2 .sale-images-wrapper {
-    flex: 0 0 70%;
-  }
-
-  /* Text styling for first column */
-  .sale-section-{{ section.id }} .sale-column-1 .sale-main-text-1 {
-    font-size: {{ section.settings.font_size_1_line1 }}px;
-    font-weight: {{ section.settings.font_weight_1 }};
-    letter-spacing: {{ section.settings.letter_spacing_1 }}px;
-    text-transform: uppercase;
-    line-height: 1.1;
-    margin-bottom: {{ section.settings.space_between_lines_1 }}px;
-    width: 100%;
-  }
-
-  .sale-section-{{ section.id }} .sale-column-1 .sale-percentage-1 {
-    font-size: {{ section.settings.font_size_1_line2 }}px;
-    font-weight: {{ section.settings.font_weight_1 }};
-    letter-spacing: {{ section.settings.letter_spacing_1 }}px;
-    line-height: 1;
-    margin-bottom: {{ section.settings.space_between_lines_1 }}px;
-    width: 100%;
-  }
-
-  .sale-section-{{ section.id }} .sale-column-1 .sale-subtext-1 {
-    font-size: {{ section.settings.font_size_1_line3 }}px;
-    font-weight: {{ section.settings.font_weight_1 }};
-    letter-spacing: {{ section.settings.letter_spacing_1 }}px;
-    text-transform: uppercase;
-    line-height: 1.3;
-    width: 100%;
-  }
-
-  /* Text styling for second column */
-  .sale-section-{{ section.id }} .sale-column-2 .sale-percentage-large {
-    font-size: {{ section.settings.font_size_2_line1 }}px;
-    font-weight: {{ section.settings.font_weight_2 }};
-    letter-spacing: {{ section.settings.letter_spacing_2 }}px;
-    line-height: 1;
-    margin-bottom: {{ section.settings.space_between_lines_2 }}px;
-    width: 100%;
-  }
-
-  .sale-section-{{ section.id }} .sale-column-2 .sale-subtext-2 {
-    font-size: {{ section.settings.font_size_2_line2 }}px;
-    font-weight: {{ section.settings.font_weight_2 }};
-    letter-spacing: {{ section.settings.letter_spacing_2 }}px;
-    text-transform: uppercase;
-    line-height: 1.3;
-    margin-bottom: {{ section.settings.space_between_lines_2 }}px;
-    width: 100%;
-  }
-
-  .sale-section-{{ section.id }} .sale-column-2 .sale-bottom-text-2 {
-    font-size: {{ section.settings.font_size_2_line3 }}px;
-    font-weight: {{ section.settings.font_weight_2 }};
-    letter-spacing: {{ section.settings.letter_spacing_2 }}px;
-    text-transform: uppercase;
-    line-height: 1.3;
-    width: 100%;
-  }
-
-  /* Images styling - Images are side by side with no gap and no hover effect */
-  .sale-section-{{ section.id }} .sale-images {
-    display: flex;
-    width: 100%;
-    height: 100%;
-  }
-
-  .sale-section-{{ section.id }} .sale-image-link {
-    flex: 1;
-    display: block;
-    height: 100%;
-  }
-
-  .sale-section-{{ section.id }} .sale-image {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-    object-position: center;
-  }
-
-  /* Responsive Styles */
-  @media (min-width: 769px) {
-    .sale-section-{{ section.id }} .sale-column {
-      height: {{ section.settings.column_height_desktop }}px;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .sale-section-{{ section.id }} .sale-container {
-      grid-template-columns: 1fr;
-      gap: 15px;
-    }
-
-    /* On mobile, keep the same inner layout but columns stack */
-    .sale-section-{{ section.id }} .sale-column {
-      height: {{ section.settings.column_height_mobile }}px;
-      /* Keep the same flex layout inside */
-    }
-
-    /* Keep the same percentages on mobile */
-    .sale-section-{{ section.id }} .sale-column-1 .sale-text-wrapper {
-      flex: 0 0 40%;
-    }
-
-    .sale-section-{{ section.id }} .sale-column-1 .sale-images-wrapper {
-      flex: 0 0 60%;
-    }
-
-    .sale-section-{{ section.id }} .sale-column-2 .sale-text-wrapper {
-      flex: 0 0 30%;
-    }
-
-    .sale-section-{{ section.id }} .sale-column-2 .sale-images-wrapper {
-      flex: 0 0 70%;
-    }
-
-    /* Adjust font sizes for mobile */
-    .sale-section-{{ section.id }} .sale-column-1 .sale-main-text-1 {
-      font-size: {{ section.settings.font_size_1_line1 | times: 0.7 | round }}px;
-    }
-
-    .sale-section-{{ section.id }} .sale-column-1 .sale-percentage-1 {
-      font-size: {{ section.settings.font_size_1_line2 | times: 0.6 | round }}px;
-    }
-
-    .sale-section-{{ section.id }} .sale-column-1 .sale-subtext-1 {
-      font-size: {{ section.settings.font_size_1_line3 | times: 0.8 | round }}px;
-    }
-
-    .sale-section-{{ section.id }} .sale-column-2 .sale-percentage-large {
-      font-size: {{ section.settings.font_size_2_line1 | times: 0.6 | round }}px;
-    }
-
-    .sale-section-{{ section.id }} .sale-column-2 .sale-subtext-2 {
-      font-size: {{ section.settings.font_size_2_line2 | times: 0.8 | round }}px;
-    }
-
-    .sale-section-{{ section.id }} .sale-column-2 .sale-bottom-text-2 {
-      font-size: {{ section.settings.font_size_2_line3 | times: 0.8 | round }}px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .sale-section-{{ section.id }} .sale-text-wrapper {
-      padding: 15px;
-    }
-
-    .sale-section-{{ section.id }} .sale-column-1 .sale-main-text-1 {
-      font-size: {{ section.settings.font_size_1_line1 | times: 0.6 | round }}px;
-    }
-
-    .sale-section-{{ section.id }} .sale-column-1 .sale-percentage-1 {
-      font-size: {{ section.settings.font_size_1_line2 | times: 0.5 | round }}px;
-    }
-
-    .sale-section-{{ section.id }} .sale-column-1 .sale-subtext-1 {
-      font-size: {{ section.settings.font_size_1_line3 | times: 0.7 | round }}px;
-    }
-
-    .sale-section-{{ section.id }} .sale-column-2 .sale-percentage-large {
-      font-size: {{ section.settings.font_size_2_line1 | times: 0.5 | round }}px;
-    }
-
-    .sale-section-{{ section.id }} .sale-column-2 .sale-subtext-2 {
-      font-size: {{ section.settings.font_size_2_line2 | times: 0.7 | round }}px;
-    }
-
-    .sale-section-{{ section.id }} .sale-column-2 .sale-bottom-text-2 {
-      font-size: {{ section.settings.font_size_2_line3 | times: 0.7 | round }}px;
-    }
-  }
-{%- endstyle -%}
-
-<div class="sale-section sale-section-{{ section.id }} {% if section.settings.full_width %}full-width{% endif %}">
-  <div class="page-width">
-    <div class="sale-container">
-      <!-- First Column -->
-      <div class="sale-column sale-column-1" style="background-color: {{ section.settings.bg_color_1 }};">
+      <!-- Column 1 -->
+      <div
+        class="sale-column sale-column-1"
+        style="
+          background-color: {{ section.settings.bg_color_1 }};
+          height: {{ section.settings.column_height_desktop }}px;
+        "
+      >
         <div class="sale-content">
-          <!-- Text content for first column - Takes 40% -->
-          <div class="sale-text-wrapper">
-            <div class="sale-main-text-1" style="color: {{ section.settings.text_color_1 }};">
+          <div class="sale-text-wrapper" style="color: {{ section.settings.text_color_1 }};">
+            <div style="font-size: {{ section.settings.font_size_1_line1 }}px;">
               {{ section.settings.text_1_line1 }}
             </div>
-            <div class="sale-percentage-1" style="color: {{ section.settings.text_color_1 }};">
+            <div style="font-size: {{ section.settings.font_size_1_line2 }}px;">
               {{ section.settings.text_1_line2 }}
             </div>
-            <div class="sale-subtext-1" style="color: {{ section.settings.text_color_1 }};">
+            <div style="font-size: {{ section.settings.font_size_1_line3 }}px;">
               {{ section.settings.text_1_line3 }}
             </div>
           </div>
-          
-          <!-- Images for first column - Takes 60% with padding -->
-          <div class="sale-images-wrapper">
+
+          <div
+            class="sale-images-wrapper"
+            style="padding: {{ section.settings.image_padding_top }}px 0 {{ section.settings.image_padding_bottom }}px;"
+          >
             <div class="sale-images">
-              {% if section.settings.image_1_1 %}
-                <a href="{{ section.settings.link_1_1 | default: '#' }}" class="sale-image-link">
-                  {{ section.settings.image_1_1 | image_url: width: 600 | image_tag:
-                    loading: 'lazy',
-                    class: 'sale-image',
-                    alt: section.settings.image_1_1.alt | escape
-                  }}
-                </a>
-              {% endif %}
-              
-              {% if section.settings.image_1_2 %}
-                <a href="{{ section.settings.link_1_2 | default: '#' }}" class="sale-image-link">
-                  {{ section.settings.image_1_2 | image_url: width: 600 | image_tag:
-                    loading: 'lazy',
-                    class: 'sale-image',
-                    alt: section.settings.image_1_2.alt | escape
-                  }}
-                </a>
-              {% endif %}
+              {% assign images_1 = 'image_1_1,image_1_2' | split: ',' %}
+              {% for img in images_1 %}
+                {% assign image = section.settings[img] %}
+                {% if image %}
+                  <a class="sale-image-link" href="#">
+                    {{ image | image_url: width: 600 | image_tag: loading: 'lazy', class: 'sale-image' }}
+                  </a>
+                {% endif %}
+              {% endfor %}
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Second Column -->
-      <div class="sale-column sale-column-2" style="background-color: {{ section.settings.bg_color_2 }};">
+      <!-- Column 2 -->
+      <div
+        class="sale-column sale-column-2"
+        style="
+          background-color: {{ section.settings.bg_color_2 }};
+          height: {{ section.settings.column_height_desktop }}px;
+        "
+      >
         <div class="sale-content">
-          <!-- Text content for second column - Takes 30% -->
-          <div class="sale-text-wrapper">
-            <div class="sale-percentage-large" style="color: {{ section.settings.text_color_2 }};">
+          <div class="sale-text-wrapper" style="color: {{ section.settings.text_color_2 }};">
+            <div style="font-size: {{ section.settings.font_size_2_line1 }}px;">
               {{ section.settings.text_2_line1 }}
             </div>
-            <div class="sale-subtext-2" style="color: {{ section.settings.text_color_2 }};">
+            <div style="font-size: {{ section.settings.font_size_2_line2 }}px;">
               {{ section.settings.text_2_line2 }}
             </div>
-            <div class="sale-bottom-text-2" style="color: {{ section.settings.text_color_2 }};">
+            <div style="font-size: {{ section.settings.font_size_2_line3 }}px;">
               {{ section.settings.text_2_line3 }}
             </div>
           </div>
-          
-          <!-- Images for second column - Takes 70% without padding -->
+
           <div class="sale-images-wrapper">
             <div class="sale-images">
-              {% if section.settings.image_2_1 %}
-                <a href="{{ section.settings.link_2_1 | default: '#' }}" class="sale-image-link">
-                  {{ section.settings.image_2_1 | image_url: width: 600 | image_tag:
-                    loading: 'lazy',
-                    class: 'sale-image',
-                    alt: section.settings.image_2_1.alt | escape
-                  }}
-                </a>
-              {% endif %}
-              
-              {% if section.settings.image_2_2 %}
-                <a href="{{ section.settings.link_2_2 | default: '#' }}" class="sale-image-link">
-                  {{ section.settings.image_2_2 | image_url: width: 600 | image_tag:
-                    loading: 'lazy',
-                    class: 'sale-image',
-                    alt: section.settings.image_2_2.alt | escape
-                  }}
-                </a>
-              {% endif %}
+              {% assign images_2 = 'image_2_1,image_2_2' | split: ',' %}
+              {% for img in images_2 %}
+                {% assign image = section.settings[img] %}
+                {% if image %}
+                  <a class="sale-image-link" href="#">
+                    {{ image | image_url: width: 600 | image_tag: loading: 'lazy', class: 'sale-image' }}
+                  </a>
+                {% endif %}
+              {% endfor %}
             </div>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </div>
-
 {% schema %}
 {
   "name": "Sale Section",
   "tag": "section",
   "class": "section",
   "settings": [
+
     {
       "type": "header",
-      "content": "Section Layout"
+      "content": "Layout"
     },
     {
       "type": "checkbox",
       "id": "full_width",
-      "label": "Full width",
+      "label": "Enable full width",
       "default": true
     },
     {
@@ -370,37 +127,18 @@
     },
     {
       "type": "range",
-      "id": "column_height_desktop",
-      "label": "Column height (desktop)",
-      "min": 400,
-      "max": 1000,
-      "step": 20,
-      "default": 600,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "column_height_mobile",
-      "label": "Column height (mobile)",
-      "min": 300,
-      "max": 800,
-      "step": 20,
-      "default": 400,
-      "unit": "px"
-    },
-    {
-      "type": "range",
       "id": "gap_between",
       "label": "Gap between columns",
       "min": 0,
       "max": 100,
       "step": 5,
-      "default": 20,
+      "default": 15,
       "unit": "px"
     },
+
     {
       "type": "header",
-      "content": "Section Spacing"
+      "content": "Section spacing"
     },
     {
       "type": "range",
@@ -409,7 +147,7 @@
       "min": 0,
       "max": 200,
       "step": 10,
-      "default": 50,
+      "default": 0,
       "unit": "px"
     },
     {
@@ -419,7 +157,7 @@
       "min": 0,
       "max": 200,
       "step": 10,
-      "default": 50,
+      "default": 20,
       "unit": "px"
     },
     {
@@ -442,15 +180,41 @@
       "default": 0,
       "unit": "px"
     },
+
     {
       "type": "header",
-      "content": "Column 1 Settings"
+      "content": "Column height"
+    },
+    {
+      "type": "range",
+      "id": "column_height_desktop",
+      "label": "Height (desktop)",
+      "min": 360,
+      "max": 1000,
+      "step": 20,
+      "default": 400,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "column_height_mobile",
+      "label": "Height (mobile)",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "default": 350,
+      "unit": "px"
+    },
+
+    {
+      "type": "header",
+      "content": "Column 1  Content"
     },
     {
       "type": "color",
       "id": "bg_color_1",
       "label": "Background color",
-      "default": "#FFE8E0"
+      "default": "#F7f7f7"
     },
     {
       "type": "color",
@@ -461,90 +225,103 @@
     {
       "type": "text",
       "id": "text_1_line1",
-      "label": "Line 1 text",
+      "label": "Text line 1",
       "default": "UPTO"
     },
     {
       "type": "text",
       "id": "text_1_line2",
-      "label": "Line 2 text",
+      "label": "Text line 2",
       "default": "50%"
     },
     {
       "type": "text",
       "id": "text_1_line3",
-      "label": "Line 3 text",
+      "label": "Text line 3",
       "default": "OFF SELECT PRODUCTS"
+    },
+
+
+    {
+      "type": "header",
+      "content": "Column 1  Typography"
     },
     {
       "type": "range",
       "id": "font_size_1_line1",
-      "label": "Font size - Line 1",
+      "label": "Font size  line 1",
       "min": 12,
       "max": 100,
       "step": 2,
-      "default": 32,
+      "default": 14,
       "unit": "px"
     },
     {
       "type": "range",
       "id": "font_size_1_line2",
-      "label": "Font size - Line 2 (50%)",
+      "label": "Font size  line 2",
       "min": 12,
-      "max": 150,
+      "max": 120,
       "step": 2,
-      "default": 64,
+      "default": 30,
       "unit": "px"
     },
     {
       "type": "range",
       "id": "font_size_1_line3",
-      "label": "Font size - Line 3",
+      "label": "Font size  line 3",
       "min": 12,
       "max": 50,
       "step": 2,
-      "default": 24,
+      "default": 14,
       "unit": "px"
     },
+
+    
     {
-      "type": "range",
-      "id": "space_between_lines_1",
-      "label": "Space between text lines",
-      "min": 0,
-      "max": 50,
-      "step": 1,
-      "default": 10,
-      "unit": "px"
+      "type": "header",
+      "content": "Column 1  Images"
     },
     {
       "type": "image_picker",
       "id": "image_1_1",
-      "label": "First image"
-    },
-    {
-      "type": "url",
-      "id": "link_1_1",
-      "label": "First image link"
+      "label": "Image 1"
     },
     {
       "type": "image_picker",
       "id": "image_1_2",
-      "label": "Second image"
+      "label": "Image 2"
     },
     {
-      "type": "url",
-      "id": "link_1_2",
-      "label": "Second image link"
+      "type": "range",
+      "id": "image_padding_top",
+      "label": "Image padding top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
     },
+    {
+      "type": "range",
+      "id": "image_padding_bottom",
+      "label": "Image padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+
     {
       "type": "header",
-      "content": "Column 2 Settings"
+      "content": "Column 2  Content"
     },
     {
       "type": "color",
       "id": "bg_color_2",
       "label": "Background color",
-      "default": "#F5F5F5"
+      "default": "#F2f8fa"
     },
     {
       "type": "color",
@@ -555,205 +332,71 @@
     {
       "type": "text",
       "id": "text_2_line1",
-      "label": "Line 1 text (Percentage)",
+      "label": "Text line 1",
       "default": "25% OFF"
     },
     {
       "type": "text",
       "id": "text_2_line2",
-      "label": "Line 2 text",
+      "label": "Text line 2",
       "default": "SELECT PRODUCTS"
     },
     {
       "type": "text",
       "id": "text_2_line3",
-      "label": "Line 3 text",
+      "label": "Text line 3",
       "default": "SUMMER TOPS"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2_2",
+      "label": "Image 2"
+    }, 
+
+    {
+      "type": "header",
+      "content": "Column 2  Typography"
     },
     {
       "type": "range",
       "id": "font_size_2_line1",
-      "label": "Font size - Line 1 (25% OFF)",
+      "label": "Font size  line 1",
       "min": 12,
-      "max": 150,
+      "max": 24,
       "step": 2,
-      "default": 72,
+      "default": 14,
       "unit": "px"
     },
     {
       "type": "range",
       "id": "font_size_2_line2",
-      "label": "Font size - Line 2",
+      "label": "Font size  line 2",
       "min": 12,
       "max": 50,
       "step": 2,
-      "default": 18,
+      "default": 30,
       "unit": "px"
     },
     {
       "type": "range",
       "id": "font_size_2_line3",
-      "label": "Font size - Line 3",
+      "label": "Font size  line 3",
       "min": 12,
       "max": 50,
       "step": 2,
-      "default": 24,
+      "default": 14,
       "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "space_between_lines_2",
-      "label": "Space between text lines",
-      "min": 0,
-      "max": 50,
-      "step": 1,
-      "default": 10,
-      "unit": "px"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_2_1",
-      "label": "First image"
-    },
-    {
-      "type": "url",
-      "id": "link_2_1",
-      "label": "First image link"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_2_2",
-      "label": "Second image"
-    },
-    {
-      "type": "url",
-      "id": "link_2_2",
-      "label": "Second image link"
-    },
-    {
-      "type": "header",
-      "content": "Typography & Layout"
-    },
-    {
-      "type": "range",
-      "id": "image_padding_top",
-      "label": "Image padding top (Column 1 only)",
-      "min": 0,
-      "max": 100,
-      "step": 5,
-      "default": 0,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "image_padding_bottom",
-      "label": "Image padding bottom (Column 1 only)",
-      "min": 0,
-      "max": 100,
-      "step": 5,
-      "default": 0,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "letter_spacing_1",
-      "label": "Letter spacing (Column 1)",
-      "min": -2,
-      "max": 10,
-      "step": 0.5,
-      "default": 1,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "letter_spacing_2",
-      "label": "Letter spacing (Column 2)",
-      "min": -2,
-      "max": 10,
-      "step": 0.5,
-      "default": 2,
-      "unit": "px"
-    },
-    {
-      "type": "select",
-      "id": "font_weight_1",
-      "label": "Font weight (Column 1)",
-      "options": [
-        {
-          "value": "300",
-          "label": "Light"
-        },
-        {
-          "value": "400",
-          "label": "Normal"
-        },
-        {
-          "value": "500",
-          "label": "Medium"
-        },
-        {
-          "value": "600",
-          "label": "Semi-bold"
-        },
-        {
-          "value": "700",
-          "label": "Bold"
-        },
-        {
-          "value": "800",
-          "label": "Extra bold"
-        }
-      ],
-      "default": "700"
-    },
-    {
-      "type": "select",
-      "id": "font_weight_2",
-      "label": "Font weight (Column 2)",
-      "options": [
-        {
-          "value": "300",
-          "label": "Light"
-        },
-        {
-          "value": "400",
-          "label": "Normal"
-        },
-        {
-          "value": "500",
-          "label": "Medium"
-        },
-        {
-          "value": "600",
-          "label": "Semi-bold"
-        },
-        {
-          "value": "700",
-          "label": "Bold"
-        },
-        {
-          "value": "800",
-          "label": "Extra bold"
-        }
-      ],
-      "default": "800"
     }
   ],
+
   "presets": [
     {
-      "name": "Sale Section",
-      "settings": {
-        "bg_color_1": "#FFE8E0",
-        "bg_color_2": "#F5F5F5",
-        "text_color_1": "#321004",
-        "text_color_2": "#321004",
-        "text_1_line1": "UPTO",
-        "text_1_line2": "50%",
-        "text_1_line3": "OFF SELECT PRODUCTS",
-        "text_2_line1": "25% OFF",
-        "text_2_line2": "SELECT PRODUCTS",
-        "text_2_line3": "SUMMER TOPS"
-      }
+      "name": "Sale Section"
     }
   ]
 }
