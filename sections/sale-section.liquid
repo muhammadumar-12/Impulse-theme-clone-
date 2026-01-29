@@ -1,0 +1,403 @@
+{{ 'sale-section.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="sale-section {% if section.settings.full_width %}full-width{% endif %}"
+  style="
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    margin-top: {{ section.settings.margin_top }}px;
+    margin-bottom: {{ section.settings.margin_bottom }}px;
+  "
+>
+  <div
+    class="page-width"
+    style="max-width: {{ section.settings.container_width }}px;"
+  >
+    <div
+      class="sale-container"
+      style="gap: {{ section.settings.gap_between }}px;"
+    >
+
+      <!-- Column 1 -->
+      <div
+        class="sale-column sale-column-1"
+        style="
+          background-color: {{ section.settings.bg_color_1 }};
+          height: {{ section.settings.column_height_desktop }}px;
+        "
+      >
+        <div class="sale-content">
+          <div class="sale-text-wrapper" style="color: {{ section.settings.text_color_1 }};">
+            <div style="font-size: {{ section.settings.font_size_1_line1 }}px;">
+              {{ section.settings.text_1_line1 }}
+            </div>
+            <div style="font-size: {{ section.settings.font_size_1_line2 }}px;">
+              {{ section.settings.text_1_line2 }}
+            </div>
+            <div style="font-size: {{ section.settings.font_size_1_line3 }}px;">
+              {{ section.settings.text_1_line3 }}
+            </div>
+          </div>
+
+          <div
+            class="sale-images-wrapper"
+            style="padding: {{ section.settings.image_padding_top }}px 0 {{ section.settings.image_padding_bottom }}px;"
+          >
+            <div class="sale-images">
+              {% assign images_1 = 'image_1_1,image_1_2' | split: ',' %}
+              {% for img in images_1 %}
+                {% assign image = section.settings[img] %}
+                {% if image %}
+                  <a class="sale-image-link" href="#">
+                    {{ image | image_url: width: 600 | image_tag: loading: 'lazy', class: 'sale-image' }}
+                  </a>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 2 -->
+      <div
+        class="sale-column sale-column-2"
+        style="
+          background-color: {{ section.settings.bg_color_2 }};
+          height: {{ section.settings.column_height_desktop }}px;
+        "
+      >
+        <div class="sale-content">
+          <div class="sale-text-wrapper" style="color: {{ section.settings.text_color_2 }};">
+            <div style="font-size: {{ section.settings.font_size_2_line1 }}px;">
+              {{ section.settings.text_2_line1 }}
+            </div>
+            <div style="font-size: {{ section.settings.font_size_2_line2 }}px;">
+              {{ section.settings.text_2_line2 }}
+            </div>
+            <div style="font-size: {{ section.settings.font_size_2_line3 }}px;">
+              {{ section.settings.text_2_line3 }}
+            </div>
+          </div>
+
+          <div class="sale-images-wrapper">
+            <div class="sale-images">
+              {% assign images_2 = 'image_2_1,image_2_2' | split: ',' %}
+              {% for img in images_2 %}
+                {% assign image = section.settings[img] %}
+                {% if image %}
+                  <a class="sale-image-link" href="#">
+                    {{ image | image_url: width: 600 | image_tag: loading: 'lazy', class: 'sale-image' }}
+                  </a>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Sale Section",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Enable full width",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "label": "Container max width",
+      "min": 1200,
+      "max": 2000,
+      "step": 50,
+      "default": 1600,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "gap_between",
+      "label": "Gap between columns",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 15,
+      "unit": "px"
+    },
+
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Margin top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Margin bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 0,
+      "unit": "px"
+    },
+
+    {
+      "type": "header",
+      "content": "Column height"
+    },
+    {
+      "type": "range",
+      "id": "column_height_desktop",
+      "label": "Height (desktop)",
+      "min": 360,
+      "max": 1000,
+      "step": 20,
+      "default": 400,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "column_height_mobile",
+      "label": "Height (mobile)",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "default": 350,
+      "unit": "px"
+    },
+
+    {
+      "type": "header",
+      "content": "Column 1  Content"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_1",
+      "label": "Background color",
+      "default": "#F7f7f7"
+    },
+    {
+      "type": "color",
+      "id": "text_color_1",
+      "label": "Text color",
+      "default": "#321004"
+    },
+    {
+      "type": "text",
+      "id": "text_1_line1",
+      "label": "Text line 1",
+      "default": "UPTO"
+    },
+    {
+      "type": "text",
+      "id": "text_1_line2",
+      "label": "Text line 2",
+      "default": "50%"
+    },
+    {
+      "type": "text",
+      "id": "text_1_line3",
+      "label": "Text line 3",
+      "default": "OFF SELECT PRODUCTS"
+    },
+
+
+    {
+      "type": "header",
+      "content": "Column 1  Typography"
+    },
+    {
+      "type": "range",
+      "id": "font_size_1_line1",
+      "label": "Font size  line 1",
+      "min": 12,
+      "max": 100,
+      "step": 2,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "font_size_1_line2",
+      "label": "Font size  line 2",
+      "min": 12,
+      "max": 120,
+      "step": 2,
+      "default": 30,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "font_size_1_line3",
+      "label": "Font size  line 3",
+      "min": 12,
+      "max": 50,
+      "step": 2,
+      "default": 14,
+      "unit": "px"
+    },
+
+    
+    {
+      "type": "header",
+      "content": "Column 1  Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "range",
+      "id": "image_padding_top",
+      "label": "Image padding top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "image_padding_bottom",
+      "label": "Image padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+
+    {
+      "type": "header",
+      "content": "Column 2  Content"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_2",
+      "label": "Background color",
+      "default": "#F2f8fa"
+    },
+    {
+      "type": "color",
+      "id": "text_color_2",
+      "label": "Text color",
+      "default": "#321004"
+    },
+    {
+      "type": "text",
+      "id": "text_2_line1",
+      "label": "Text line 1",
+      "default": "25% OFF"
+    },
+    {
+      "type": "text",
+      "id": "text_2_line2",
+      "label": "Text line 2",
+      "default": "SELECT PRODUCTS"
+    },
+    {
+      "type": "text",
+      "id": "text_2_line3",
+      "label": "Text line 3",
+      "default": "SUMMER TOPS"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2_2",
+      "label": "Image 2"
+    }, 
+
+    {
+      "type": "header",
+      "content": "Column 2  Typography"
+    },
+    {
+      "type": "range",
+      "id": "font_size_2_line1",
+      "label": "Font size  line 1",
+      "min": 12,
+      "max": 24,
+      "step": 2,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "font_size_2_line2",
+      "label": "Font size  line 2",
+      "min": 12,
+      "max": 50,
+      "step": 2,
+      "default": 30,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "font_size_2_line3",
+      "label": "Font size  line 3",
+      "min": 12,
+      "max": 50,
+      "step": 2,
+      "default": 14,
+      "unit": "px"
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Sale Section"
+    }
+  ]
+}
+{% endschema %}
