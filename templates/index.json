@@ -205,18 +205,19 @@
         "right_button_hover_border_color": "#ffffff"
       }
     },
-    "rich_text_8aeaVr": {
+    "rich_text_dk6hqN": {
       "type": "rich-text",
       "blocks": {
-        "text_yWJkpU": {
-          "type": "text",
+        "heading_xaFttE": {
+          "type": "heading",
           "settings": {
-            "text": "<p>Fashion inspired by where we're from — the sunny shores of California.<br/>Products provided by <a href=\"https://www.piko.com/\" title=\"https://www.piko.com/\">PIKO</a></p>"
+            "heading": "Fashion inspired by where we're from — the sunny shores of California.Products provided by <a href=\"https://www.piko.com/\" title=\"https://www.piko.com/\">PIKO</a>",
+            "heading_size": "h2"
           }
         }
       },
       "block_order": [
-        "text_yWJkpU"
+        "heading_xaFttE"
       ],
       "name": "t:sections.rich-text.presets.name",
       "settings": {
@@ -225,7 +226,89 @@
         "color_scheme": "",
         "full_width": true,
         "padding_top": 40,
-        "padding_bottom": 52
+        "padding_bottom": 40
+      }
+    },
+    "discover_our_APXYG7": {
+      "type": "Discover-our",
+      "name": "Hero Banner",
+      "settings": {
+        "image": "shopify://shop_images/discover_kuri.webp",
+        "full_width": true,
+        "text_alignment": "center",
+        "text_color": "#ffffff",
+        "subheading": "DISCOVER OUR",
+        "heading": "BUSINESS CASUAL CAPSULE ESSENTIALS",
+        "description": "Get the perfect look for your fall classic wardrobe.",
+        "text_max_width": 600,
+        "subheading_spacing": 16,
+        "heading_spacing": 10,
+        "description_spacing": 0,
+        "overlay_opacity": 40,
+        "subheading_font_size": 12,
+        "subheading_font_weight": "600",
+        "heading_font_size": 30,
+        "heading_font_weight": "500",
+        "description_font_size": 12,
+        "description_font_weight": "400",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_left": 12,
+        "padding_right": 12,
+        "subheading_font_size_mobile": 11,
+        "heading_font_size_mobile": 20,
+        "description_font_size_mobile": 11,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 0,
+        "padding_left_mobile": 12,
+        "padding_right_mobile": 12
+      }
+    },
+    "sale_section_J7qbKc": {
+      "type": "sale-section",
+      "name": "Sale Section",
+      "settings": {
+        "full_width": true,
+        "container_width": 1600,
+        "column_height_desktop": 400,
+        "column_height_mobile": 350,
+        "gap_between": 15,
+        "padding_top": 0,
+        "padding_bottom": 20,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "bg_color_1": "#f7f7f7",
+        "text_color_1": "#321004",
+        "text_1_line1": "UPTO",
+        "text_1_line2": "50%",
+        "text_1_line3": "OFF SELECT PRODUCTS",
+        "font_size_1_line1": 14,
+        "font_size_1_line2": 30,
+        "font_size_1_line3": 14,
+        "space_between_lines_1": 10,
+        "image_1_1": "shopify://shop_images/blackkuri.webp",
+        "link_1_1": "shopify://collections/dummy-collection",
+        "image_1_2": "shopify://shop_images/whiteshirtkuri_f17d93b7-73cb-4aad-b6cb-3b763cd0d77a.webp",
+        "link_1_2": "shopify://collections/dummy-collection",
+        "bg_color_2": "#f2f8fa",
+        "text_color_2": "#321004",
+        "text_2_line1": "UP TO",
+        "text_2_line2": "25% OFF",
+        "text_2_line3": "SUMMER TOPS",
+        "font_size_2_line1": 14,
+        "font_size_2_line2": 30,
+        "font_size_2_line3": 14,
+        "space_between_lines_2": 10,
+        "image_2_1": "shopify://shop_images/new_kuri_gray.webp",
+        "link_2_1": "",
+        "image_2_2": "shopify://shop_images/white_sghiets.webp",
+        "link_2_2": "",
+        "image_padding_top": 35,
+        "image_padding_bottom": 35,
+        "letter_spacing_1": 1,
+        "letter_spacing_2": 2,
+        "font_weight_1": "700",
+        "font_weight_2": "800"
       }
     }
   },
@@ -235,6 +318,8 @@
     "1769151733e96072b1",
     "background_image_tDpgX7",
     "new_arrival_FXUrB8",
-    "rich_text_8aeaVr"
+    "rich_text_dk6hqN",
+    "discover_our_APXYG7",
+    "sale_section_J7qbKc"
   ]
 }
