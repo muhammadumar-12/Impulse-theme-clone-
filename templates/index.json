@@ -310,6 +310,28 @@
         "font_weight_1": "700",
         "font_weight_2": "800"
       }
+    },
+    "shop_the_look_N8bcxA": {
+      "type": "shop-the-look",
+      "name": "Shop the Look",
+      "settings": {
+        "section_padding_top": 40,
+        "section_padding_bottom": 40,
+        "heading_text": "SHOP THE LOOK",
+        "heading_size": 20,
+        "heading_weight": "400",
+        "heading_color": "#000000",
+        "first_image": "shopify://shop_images/first_image.webp",
+        "first_image_link": "",
+        "first_image_height_desktop": 800,
+        "first_image_height_mobile": 400,
+        "second_image": "shopify://shop_images/small_girl.webp",
+        "second_image_link": "shopify://collections/dummy-collection",
+        "second_image_height_desktop": 400,
+        "second_image_height_mobile": 300,
+        "second_image_padding_top": 100,
+        "second_image_padding_bottom": 0
+      }
     }
   },
   "order": [
@@ -320,6 +342,7 @@
     "new_arrival_FXUrB8",
     "rich_text_dk6hqN",
     "discover_our_APXYG7",
-    "sale_section_J7qbKc"
+    "sale_section_J7qbKc",
+    "shop_the_look_N8bcxA"
   ]
 }
