@@ -1,277 +1,90 @@
-{%- style -%}
-  .shop-the-look {
-    padding-top: {{ section.settings.section_padding_top }}px;
-    padding-bottom: {{ section.settings.section_padding_bottom }}px;
-  }
+{{ 'shop-the-look.css' | asset_url | stylesheet_tag }}
+<section class="shop-look">
+  {% if section.settings.title != blank %}
+    <h2 class="shop-look__title">
+      {{ section.settings.title }}
+    </h2>
+  {% endif %}
 
-  .shop-the-look__title {
-    font-size: {{ section.settings.heading_size }}px;
-    font-weight: {{ section.settings.heading_weight }};
-    color: {{ section.settings.heading_color }};
-  }
-
-  .shop-the-look__container {
-    display: flex;
-    gap: 20px;
-  }
-
-  .shop-the-look__image-wrapper {
-    width: 50%;
-  }
-
-  .shop-the-look__image-wrapper--second {
-    padding-top: {{ section.settings.second_image_padding_top }}px;
-    padding-bottom: {{ section.settings.second_image_padding_bottom }}px;
-  }
-
-  .shop-the-look__main-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .shop-the-look__first-image {
-    height: {{ section.settings.first_image_height_desktop }}px;
-  }
-
-  .shop-the-look__second-image {
-    height: {{ section.settings.second_image_height_desktop }}px;
-  }
-
-  @media (max-width: 768px) {
-    .shop-the-look__container {
-      flex-direction: column;
-    }
-
-    .shop-the-look__image-wrapper {
-      width: 100%;
-    }
-
-    .shop-the-look__first-image {
-      height: {{ section.settings.first_image_height_mobile }}px;
-    }
-
-    .shop-the-look__second-image {
-      height: {{ section.settings.second_image_height_mobile }}px;
-      padding-top: -20px;
-    }
-  }
-{%- endstyle -%}
-
-<div class="shop-the-look">
-  <div class="shop-the-look__header">
-    <h2 class="shop-the-look__title">{{ section.settings.heading_text }}</h2>
-  </div>
-
-  <div class="shop-the-look__container">
-
-    <!-- FIRST IMAGE -->
-    <div class="shop-the-look__image-wrapper shop-the-look__first-image">
-      {% if section.settings.first_image != blank %}
-        {% if section.settings.first_image_link != blank %}
-          <a href="{{ section.settings.first_image_link }}">
-        {% endif %}
-
-        <img
-          src="{{ section.settings.first_image | image_url: width: 1200 }}"
-          alt="{{ section.settings.first_image.alt | escape }}"
-          loading="lazy"
-          class="shop-the-look__main-img"
-        >
-
-        {% if section.settings.first_image_link != blank %}
-          </a>
-        {% endif %}
+  <div class="shop-look__grid">
+    <!-- Main Image (70%) -->
+    <div class="shop-look__main">
+      {% if section.settings.main_image %}
+        {{ section.settings.main_image
+          | image_url: 
+          | image_tag:
+            loading: 'lazy',
+            class: 'shop-look__image',
+            alt: section.settings.main_image.alt | escape
+        }}
       {% endif %}
     </div>
 
-    <!-- SECOND IMAGE -->
-    <div class="shop-the-look__image-wrapper shop-the-look__image-wrapper--second shop-the-look__second-image">
-      {% if section.settings.second_image != blank %}
-        {% if section.settings.second_image_link != blank %}
-          <a href="{{ section.settings.second_image_link }}">
-        {% endif %}
-
-        <img
-          src="{{ section.settings.second_image | image_url: width: 1200 }}"
-          alt="{{ section.settings.second_image.alt | escape }}"
-          loading="lazy"
-          class="shop-the-look__main-img"
-        >
-
-        {% if section.settings.second_image_link != blank %}
-          </a>
-        {% endif %}
+    <!-- Second Image (30%) -->
+    <div
+      class="shop-look__side"
+      style="
+        padding-top: {{ section.settings.side_padding_top }}px;
+        padding-bottom: {{ section.settings.side_padding_bottom }}px;
+      "
+    >
+      {% if section.settings.side_image %}
+        {{ section.settings.side_image
+          | image_url: 
+          | image_tag:
+            loading: 'lazy',
+            class: 'shop-look__image',
+            alt: section.settings.side_image.alt | escape
+        }}
       {% endif %}
     </div>
-
   </div>
-</div>
+</section>
 
 {% schema %}
 {
   "name": "Shop the Look",
-  "tag": "section",
-  "class": "section shop-the-look-section",
   "settings": [
     {
-      "type": "header",
-      "content": "Section Spacing"
-    },
-    {
-      "type": "range",
-      "id": "section_padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "Section Padding Top",
-      "default": 40
-    },
-    {
-      "type": "range",
-      "id": "section_padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "Section Padding Bottom",
-      "default": 40
-    },
-
-    {
-      "type": "header",
-      "content": "Heading Settings"
-    },
-    {
       "type": "text",
-      "id": "heading_text",
-      "label": "Heading Text",
-      "default": "SHOP THE LOOK"
-    },
-    {
-      "type": "range",
-      "id": "heading_size",
-      "min": 16,
-      "max": 48,
-      "step": 2,
-      "unit": "px",
-      "label": "Heading Size",
-      "default": 20
-    },
-    {
-      "type": "select",
-      "id": "heading_weight",
-      "label": "Heading Weight",
-      "options": [
-        { "value": "400", "label": "Normal" },
-        { "value": "500", "label": "Medium" },
-        { "value": "600", "label": "Semi-bold" },
-        { "value": "700", "label": "Bold" }
-      ],
-      "default": "400"
-    },
-    {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Heading Color",
-      "default": "#000000"
-    },
-
-    {
-      "type": "header",
-      "content": "First Image Settings"
+      "id": "title",
+      "label": "Section title",
+      "default": "Shop the Look"
     },
     {
       "type": "image_picker",
-      "id": "first_image",
-      "label": "First Image"
-    },
-    {
-      "type": "url",
-      "id": "first_image_link",
-      "label": "First Image Link"
-    },
-    {
-      "type": "range",
-      "id": "first_image_height_desktop",
-      "min": 300,
-      "max": 1000,
-      "step": 50,
-      "unit": "px",
-      "label": "First Image Height (Desktop)",
-      "default": 600
-    },
-    {
-      "type": "range",
-      "id": "first_image_height_mobile",
-      "min": 200,
-      "max": 600,
-      "step": 50,
-      "unit": "px",
-      "label": "First Image Height (Mobile)",
-      "default": 400
-    },
-
-    {
-      "type": "header",
-      "content": "Second Image Settings"
+      "id": "main_image",
+      "label": "Main image (70%)"
     },
     {
       "type": "image_picker",
-      "id": "second_image",
-      "label": "Second Image"
-    },
-    {
-      "type": "url",
-      "id": "second_image_link",
-      "label": "Second Image Link"
+      "id": "side_image",
+      "label": "Side image (30%)"
     },
     {
       "type": "range",
-      "id": "second_image_height_desktop",
-      "min": 200,
-      "max": 800,
-      "step": 50,
-      "unit": "px",
-      "label": "Second Image Height (Desktop)",
-      "default": 400
-    },
-    {
-      "type": "range",
-      "id": "second_image_height_mobile",
-      "min": 150,
-      "max": 500,
-      "step": 50,
-      "unit": "px",
-      "label": "Second Image Height (Mobile)",
-      "default": 300
-    },
-    {
-      "type": "range",
-      "id": "second_image_padding_top",
+      "id": "side_padding_top",
+      "label": "Side image padding top",
       "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "Second Image Padding Top",
-      "default": 20
+      "max": 150,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
     },
     {
       "type": "range",
-      "id": "second_image_padding_bottom",
+      "id": "side_padding_bottom",
+      "label": "Side image padding bottom",
       "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "Second Image Padding Bottom",
-      "default": 20
+      "max": 150,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
     }
   ],
   "presets": [
     {
-      "name": "Shop the Look",
-      "category": "Custom"
+      "name": "Shop the Look"
     }
   ]
 }
