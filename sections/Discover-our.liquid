@@ -1,0 +1,477 @@
+{{ 'hero-banner.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .hero-banner-{{ section.id }} {
+    padding: {{ section.settings.padding_top }}px {{ section.settings.padding_right }}px {{ section.settings.padding_bottom }}px {{ section.settings.padding_left }}px;
+    --overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  }
+
+  .hero-banner-{{ section.id }} .hero-banner__subheading {
+    font-size: {{ section.settings.subheading_font_size }}px;
+    font-weight: {{ section.settings.subheading_font_weight }};
+    margin-bottom: {{ section.settings.subheading_spacing }}px;
+    color: {{ section.settings.text_color }};
+  }
+
+  .hero-banner-{{ section.id }} .hero-banner__heading {
+    font-size: {{ section.settings.heading_font_size }}px;
+    font-weight: {{ section.settings.heading_font_weight }};
+    margin-bottom: {{ section.settings.heading_spacing }}px;
+    color: {{ section.settings.text_color }};
+  }
+
+  .hero-banner-{{ section.id }} .hero-banner__description {
+    font-size: {{ section.settings.description_font_size }}px;
+    font-weight: {{ section.settings.description_font_weight }};
+    max-width: {{ section.settings.text_max_width }}px;
+    margin-bottom: {{ section.settings.description_spacing }}px;
+    color: {{ section.settings.text_color }};
+  }
+
+  @media screen and (max-width: 768px) {
+    .hero-banner-{{ section.id }} {
+      padding: {{ section.settings.padding_top_mobile }}px {{ section.settings.padding_right_mobile }}px {{ section.settings.padding_bottom_mobile }}px {{ section.settings.padding_left_mobile }}px;
+    }
+
+    .hero-banner-{{ section.id }} .hero-banner__subheading {
+      font-size: {{ section.settings.subheading_font_size_mobile }}px;
+    }
+
+    .hero-banner-{{ section.id }} .hero-banner__heading {
+      font-size: {{ section.settings.heading_font_size_mobile }}px;
+    }
+
+    .hero-banner-{{ section.id }} .hero-banner__description {
+      font-size: {{ section.settings.description_font_size_mobile }}px;
+    }
+  }
+</style>
+
+<div class="hero-banner hero-banner-{{ section.id }} {% if section.settings.full_width %}hero-banner--full-width{% endif %}">
+  <div class="hero-banner__container {% unless section.settings.full_width %}page-width{% endunless %}">
+    <div class="hero-banner__inner">
+
+      {% if section.settings.image %}
+        <div class="hero-banner__image-container">
+          <img
+            src="{{ section.settings.image | image_url: width: 2000 }}"
+            alt="{{ section.settings.image.alt | escape }}"
+            loading="lazy"
+            class="hero-banner__image"
+            width="{{ section.settings.image.width }}"
+            height="{{ section.settings.image.height }}"
+          >
+        </div>
+      {% else %}
+        <div class="hero-banner__image-container">
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'hero-banner__image placeholder' }}
+        </div>
+      {% endif %}
+
+      <div class="hero-banner__content hero-banner__content--{{ section.settings.text_alignment }}">
+        <div class="hero-banner__text-container">
+
+          {% if section.settings.subheading != blank %}
+            <div class="hero-banner__subheading">{{ section.settings.subheading }}</div>
+          {% endif %}
+
+          {% if section.settings.heading != blank %}
+            <h2 class="hero-banner__heading">{{ section.settings.heading }}</h2>
+          {% endif %}
+
+          {% if section.settings.description != blank %}
+            <div class="hero-banner__description">{{ section.settings.description }}</div>
+          {% endif %}
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "default": true,
+      "label": "Full width"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "label": "Text alignment"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "default": "DISCOVER OUR",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "BUSINESS CASUAL CAPSULE ESSENTIALS",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "default": "Get the perfect look for your fall classic wardrobe.",
+      "label": "Description"
+    },
+    {
+      "type": "range",
+      "id": "text_max_width",
+      "min": 400,
+      "max": 1200,
+      "step": 10,
+      "unit": "px",
+      "label": "Text max width",
+      "default": 600
+    },
+    {
+      "type": "header",
+      "content": "Text Spacing"
+    },
+    {
+      "type": "range",
+      "id": "subheading_spacing",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Space below subheading",
+      "default": 1,
+      "info": "Space between subheading and heading"
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Space below heading",
+      "default": 10,
+      "info": "Space between heading and description"
+    },
+    {
+      "type": "range",
+      "id": "description_spacing",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Space below description",
+      "default": 0,
+      "info": "Space after description (if needed)"
+    },
+    {
+      "type": "header",
+      "content": "Overlay settings"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Dark overlay opacity",
+      "default": 40,
+      "info": "Dark overlay is always visible on the image"
+    },
+    {
+      "type": "header",
+      "content": "Font settings - Desktop"
+    },
+    {
+      "type": "range",
+      "id": "subheading_font_size",
+      "min": 12,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading font size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "subheading_font_weight",
+      "label": "Subheading font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 24,
+      "max": 96,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading font size",
+      "default": 48
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra bold"
+        },
+        {
+          "value": "900",
+          "label": "Black"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "description_font_size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Description font size",
+      "default": 18
+    },
+    {
+      "type": "select",
+      "id": "description_font_weight",
+      "label": "Description font weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "header",
+      "content": "Padding settings - Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Left padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Right padding",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Mobile settings"
+    },
+    {
+      "type": "range",
+      "id": "subheading_font_size_mobile",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading font size (mobile)",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size_mobile",
+      "min": 18,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading font size (mobile)",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "description_font_size_mobile",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Description font size (mobile)",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (mobile)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (mobile)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_left_mobile",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Left padding (mobile)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_right_mobile",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Right padding (mobile)",
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner",
+      "settings": {
+        "subheading": "DISCOVER OUR",
+        "heading": "BUSINESS CASUAL CAPSULE ESSENTIALS",
+        "description": "Get the perfect look for your fall classic wardrobe.",
+        "text_color": "#ffffff",
+        "overlay_opacity": 40,
+        "text_alignment": "center",
+        "subheading_spacing": 15,
+        "heading_spacing": 15,
+        "description_spacing": 0
+      }
+    }
+  ]
+}
+{% endschema %}

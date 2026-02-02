@@ -1,0 +1,91 @@
+{{ 'shop-the-look.css' | asset_url | stylesheet_tag }}
+<section class="shop-look">
+  {% if section.settings.title != blank %}
+    <h2 class="shop-look__title">
+      {{ section.settings.title }}
+    </h2>
+  {% endif %}
+
+  <div class="shop-look__grid">
+    <!-- Main Image (70%) -->
+    <div class="shop-look__main">
+      {% if section.settings.main_image %}
+        {{ section.settings.main_image
+          | image_url: width: 600
+          | image_tag:
+            loading: 'lazy',
+            class: 'shop-look__image',
+            alt: section.settings.main_image.alt | escape
+        }}
+      {% endif %}
+    </div>
+
+    <!-- Second Image (30%) -->
+    <div
+      class="shop-look__side"
+      style="
+        padding-top: {{ section.settings.side_padding_top }}px;
+        padding-bottom: {{ section.settings.side_padding_bottom }}px;
+      "
+    >
+      {% if section.settings.side_image %}
+        {{ section.settings.side_image
+          | image_url: width: 450
+          | image_tag:
+            loading: 'lazy',
+            class: 'shop-look__image',
+            alt: section.settings.side_image.alt | escape
+        }}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop the Look",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "Shop the Look"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Main image (70%)"
+    },
+    {
+      "type": "image_picker",
+      "id": "side_image",
+      "label": "Side image (30%)"
+    },
+    {
+      "type": "range",
+      "id": "side_padding_top",
+      "label": "Side image padding top",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "side_padding_bottom",
+      "label": "Side image padding bottom",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop the Look"
+    }
+  ]
+}
+{% endschema %}
