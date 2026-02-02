@@ -321,6 +321,64 @@
         "side_padding_top": 80,
         "side_padding_bottom": 0
       }
+    },
+    "shop_by_category_8ny4WA": {
+      "type": "shop-by-category",
+      "blocks": {
+        "category_bWhjtK": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/cap_wali_kuri.webp",
+            "title": "TOPS",
+            "link": ""
+          }
+        },
+        "category_F339f9": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/new_kuri_gray.webp",
+            "title": "TUNICS",
+            "link": ""
+          }
+        },
+        "category_QWePdx": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/blackkuri.webp",
+            "title": "DRESSES",
+            "link": ""
+          }
+        },
+        "category_UVF6rz": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/sweter_kuri.webp",
+            "title": "SWEATSHIRTS",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "category_bWhjtK",
+        "category_F339f9",
+        "category_QWePdx",
+        "category_UVF6rz"
+      ],
+      "name": "Shop by Category",
+      "settings": {
+        "heading": "SHOP BY CATEGORY",
+        "heading_font_size": 21,
+        "heading_color": "#333333",
+        "heading_margin_bottom": 36,
+        "image_text_font_size": 20,
+        "image_aspect_ratio": "2/3",
+        "image_text_font_weight": "400",
+        "image_padding": 0,
+        "image_gap": 15,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "background_color": "#ffffff"
+      }
     }
   },
   "order": [
@@ -332,6 +390,7 @@
     "rich_text_dk6hqN",
     "discover_our_APXYG7",
     "sale_section_J7qbKc",
-    "shop_the_look_fqngDK"
+    "shop_the_look_fqngDK",
+    "shop_by_category_8ny4WA"
   ]
 }

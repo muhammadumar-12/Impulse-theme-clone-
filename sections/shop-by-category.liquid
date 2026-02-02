@@ -1,0 +1,274 @@
+{% comment %}
+  Shop by Category Section
+  Version: 1.0
+  Author: Shopify Developer
+{% endcomment %}
+
+{{ 'shop-by-category.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .shop-by-category {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.background_color }};
+  }
+
+  .shop-by-category__heading {
+    font-size: {{ section.settings.heading_font_size }}px;
+    color: {{ section.settings.heading_color }};
+    margin-bottom: {{ section.settings.heading_margin_bottom }}px;
+  }
+
+  .shop-by-category__categories {
+    gap: {{ section.settings.image_gap }}px;
+  }
+
+  .shop-by-category__category {
+    padding: {{ section.settings.image_padding }}px;
+  }
+
+  .shop-by-category__title {
+    font-size: {{ section.settings.image_text_font_size }}px;
+    font-weight: {{ section.settings.image_text_font_weight }};
+  }
+  .shop-by-category__category {
+    --image-aspect-ratio: {{ section.settings.image_aspect_ratio }};
+  }
+{%- endstyle -%}
+
+<div class="shop-by-category">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="shop-by-category__heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+
+  <div class="shop-by-category__categories">
+    {%- for block in section.blocks -%}
+      <div class="shop-by-category__category" {{ block.shopify_attributes }}>
+        <a href="{{ block.settings.link }}" class="shop-by-category__link">
+          <div class="shop-by-category__image-wrapper">
+            {%- if block.settings.image != blank -%}
+              {%- assign img_url = block.settings.image | img_url: 'master' -%}
+              <img
+                class="shop-by-category__image lazyload"
+                src="{{ block.settings.image | img_url: '300x' }}"
+                data-src="{{ img_url }}"
+                alt="{{ block.settings.image.alt | escape }}"
+                loading="lazy"
+              >
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'shop-by-category__image placeholder-svg' }}
+            {%- endif -%}
+
+            <div class="shop-by-category__overlay">
+              {%- if block.settings.title != blank -%}
+                <h3 class="shop-by-category__title">{{ block.settings.title }}</h3>
+              {%- endif -%}
+            </div>
+          </div>
+        </a>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Shop by Category",
+  "tag": "section",
+  "class": "shopify-section--shop-by-category",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "SHOP BY CATEGORY"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 16,
+      "max": 72,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading font size",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#333333"
+    },
+    {
+      "type": "range",
+      "id": "heading_margin_bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading bottom margin",
+      "default": 10,
+      "info": "Space between heading and categories"
+    },
+    {
+      "type": "range",
+      "id": "image_text_font_size",
+      "min": 12,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Category text font size",
+      "default": 18
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image aspect ratio",
+      "options": [
+        {
+          "value": "1/1",
+          "label": "Square (1:1)"
+        },
+        {
+          "value": "3/4",
+          "label": "Portrait (3:4)"
+        },
+        {
+          "value": "4/3",
+          "label": "Landscape (4:3)"
+        },
+        {
+          "value": "2/3",
+          "label": "Tall portrait (2:3)"
+        }
+      ],
+      "default": "3/4"
+    },
+    {
+      "type": "select",
+      "id": "image_text_font_weight",
+      "label": "Category text font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "range",
+      "id": "image_padding",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Image padding",
+      "default": 0,
+      "info": "Padding around each image"
+    },
+    {
+      "type": "range",
+      "id": "image_gap",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Space between images",
+      "default": 20,
+      "info": "Gap between category items"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Section top padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Section bottom padding",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Category image",
+          "info": "Recommended size: 500x500px"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category title",
+          "default": "Category Name"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Category link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by Category",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "title": "TOPS"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "TUNICS"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "DRESSES"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "SWEATSHIRTS"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
