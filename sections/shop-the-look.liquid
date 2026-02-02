@@ -11,7 +11,7 @@
     <div class="shop-look__main">
       {% if section.settings.main_image %}
         {{ section.settings.main_image
-          | image_url: 
+          | image_url: width: 600
           | image_tag:
             loading: 'lazy',
             class: 'shop-look__image',
@@ -30,7 +30,7 @@
     >
       {% if section.settings.side_image %}
         {{ section.settings.side_image
-          | image_url: 
+          | image_url: width: 450
           | image_tag:
             loading: 'lazy',
             class: 'shop-look__image',
