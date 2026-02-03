@@ -1,0 +1,131 @@
+/* From the Journal Section Styles */
+.from-the-journal {
+  padding: 60px 20px;
+  width: 100%;
+}
+
+.from-the-journal__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.from-the-journal__heading {
+  text-align: center;
+  flex: 1;
+  color: #333;
+  font-weight: 600;
+  margin: 0;
+}
+
+.from-the-journal__button {
+  background: none;
+  border: 1px solid #ceb8b8;
+  border-radius: 25px;
+  color: #333;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.from-the-journal__button:hover {
+  background: #333;
+  color: white;
+}
+
+.from-the-journal__articles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.from-the-journal__article {
+  display: flex;
+  flex-direction: column;
+}
+
+.from-the-journal__image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.from-the-journal__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.from-the-journal__article:hover .from-the-journal__image {
+  transform: scale(1.05);
+}
+
+.from-the-journal__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.from-the-journal__date {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.from-the-journal__title {
+  font-size: 18px;
+  color: #333;
+  margin: 0;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+/* Mobile Responsive Styles */
+@media screen and (max-width: 768px) {
+  .from-the-journal {
+    padding: 40px 15px;
+  }
+  
+  .from-the-journal__header {
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .from-the-journal__heading {
+    margin-bottom: 10px;
+  }
+  
+  .from-the-journal__articles {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .from-the-journal__article {
+    flex-direction: row;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  
+  .from-the-journal__image-wrapper {
+    flex: 0 0 120px;
+    aspect-ratio: 1/1;
+    margin-bottom: 0;
+  }
+  
+  .from-the-journal__content {
+    flex: 1;
+  }
+}
